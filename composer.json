@@ -20,7 +20,7 @@
 	"support": {
 		"source": "https://github.com/ssovit/TikTok-API-PHP",
 		"issues": "https://github.com/ssovit/TikTok-API-PHP/issues",
-		"email": "info@wppress.net"
+		"email": "sovit.tamrakar@gmail.com"
 	},
 	"autoload": {
 		"psr-4": {
