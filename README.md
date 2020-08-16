@@ -1,11 +1,28 @@
 # TikTok-API-PHP
-Unofficial TikTok API for PHP
-
 [![GitHub issues](https://img.shields.io/github/issues/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/issues) ![Packagist Downloads](https://img.shields.io/packagist/dm/ssovit/TikTok-API-PHP?style=for-the-badge) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ssovit/TikTok-API-PHP/Create%20Tag?style=for-the-badge) [![GitHub license](https://img.shields.io/github/license/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/blob/master/LICENSE)
-
+Unofficial TikTok API for PHP
 
 # Usage
 Follow examples in `/example` directory
+
+```php
+use TikTok\Api as TikTokApi;
+
+$api=new TikTokApi();
+
+$userData=$api->getUser("tiktok");
+
+$userFeed=$api->getUserFeedByName("tiktok");
+
+$challenge=$api->getChallenge("foryourpage");
+
+$challengeFeed=$api->getChallengeFeedByName("foryourpage");
+
+$musc=$api->getMusic("6798898508385585925");
+
+$musicFeed=$api->getMusicFeed("6798898508385585925");
+
+```
 
 # Available methods
 - `getUser` - `getUser($username)` Get profile data for TikTok User
