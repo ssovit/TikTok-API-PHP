@@ -1,7 +1,8 @@
 # TikTok-API-PHP
 Unofficial TikTok API for PHP
 
-[![GitHub issues](https://img.shields.io/github/issues/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/issues)[![GitHub forks](https://img.shields.io/github/forks/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/network)[![GitHub stars](https://img.shields.io/github/stars/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/stargazers)[![GitHub license](https://img.shields.io/github/license/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/issues) [![GitHub forks](https://img.shields.io/github/forks/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/network) [![GitHub stars](https://img.shields.io/github/stars/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/stargazers) [![GitHub license](https://img.shields.io/github/license/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/blob/master/LICENSE) ![GitHub language count](https://img.shields.io/github/languages/count/ssovit/TikTok-API-PHP?style=for-the-badge)
+
 
 # Usage
 Follow examples in `/example` directory
