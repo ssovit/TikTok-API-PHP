@@ -1,7 +1,7 @@
 # TikTok-API-PHP
 Unofficial TikTok API for PHP
 
-[![GitHub issues](https://img.shields.io/github/issues/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/issues) [![GitHub forks](https://img.shields.io/github/forks/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/network) [![GitHub stars](https://img.shields.io/github/stars/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/stargazers) [![GitHub license](https://img.shields.io/github/license/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/blob/master/LICENSE) ![GitHub language count](https://img.shields.io/github/languages/count/ssovit/TikTok-API-PHP?style=for-the-badge)
+[![GitHub issues](https://img.shields.io/github/issues/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/issues) [![GitHub forks](https://img.shields.io/github/forks/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/network) [![GitHub stars](https://img.shields.io/github/stars/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/stargazers) [![GitHub license](https://img.shields.io/github/license/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/blob/master/LICENSE) ![Packagist Downloads](https://img.shields.io/packagist/dm/ssovit/TikTok-API-PHP?style=for-the-badge) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ssovit/TikTok-API-PHP/Create%20Tag?style=for-the-badge)
 
 
 # Usage
