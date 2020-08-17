@@ -143,6 +143,18 @@ class Api
         }
         return false;
     }
+   
+    public function getVideoByID($video_id = "")
+    {
+        if (empty($video_id)) {
+            throw new \Exception("Invalid VIDEO ID");
+        }
+        $result = $this->remote_call(self::API_BASE . "embed/render/{$video_id}");
+        if (isset($result->body->videoData)) {
+            return $result->body->videoData;
+        }
+        return false;
+    }    
 
     private function remote_call($url = "", $isJson = true)
     {
