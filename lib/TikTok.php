@@ -8,7 +8,12 @@ class Api
     private $_config = [];
 
     private $defaults = [
-        "user-agent" => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'];
+        "user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
+        "proxy-host"     => false,
+        "proxy-port"     => false,
+        "proxy-username"     => false,
+        "proxy-password" => false,
+    ];
 
     public function __construct($config = [])
     {
@@ -206,6 +211,12 @@ class Api
         curl_setopt_array($ch, $options);
         if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
             curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        }
+        if ($this->_config['proxy-host'] && $this->_config['proxy-port']) {
+            curl_setopt($ch, CURLOPT_PROXY, $this->_config['proxy-host'] . ":" . $this->_config['proxy-port']);
+            if($this->_config['proxy-username'] && $this->_config['proxy-password']){
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->_config['proxy-username'] . ":" . $this->_config['proxy-password']);
+            }
         }
         $data = curl_exec($ch);
         curl_close($ch);

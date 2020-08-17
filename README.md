@@ -6,14 +6,13 @@ Unofficial TikTok API for PHP
 # Installation
 `composer require ssovit/tiktok-api-php`
 
-
 # Usage
 Follow examples in `/example` directory
 
 ```php
 use TikTok\Api as TikTokApi;
 
-$api=new TikTokApi();
+$api=new TikTokApi(array());
 
 $userData=$api->getUser("tiktok");
 
@@ -33,8 +32,23 @@ $videoData=$api->getVideoByUrl("https://www.tiktok.com/@zachking/video/682930357
 
 ```
 
+# Available Options
+```php
+$api=new \TikTok\Api(array(
+		"user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
+        "proxy-host"     => false,
+        "proxy-port"     => false,
+        "proxy-username" => false,
+        "proxy-password" => false
+    ));
+```
+
+# Proxy Support
+To use proxy, provide `proxy-host`, `proxy-port`, `proxy-username`, `proxy-password`
+It's highly recommended that you use proxy to prevent your IP from getting banned.
+
 # Available methods
-- `getUser` - `getUser($username)` Get profile data for TikTok User
+- `getUser` - Get profile data for TikTok User `getUser($username)`
 - `getUserFeed` - Get user feed by ID `getUserFeed($user_id,$maxCursor)`
 - `getUserFeedByName` - Get user feed by Name `getUserFeedByName($username,$maxCursor)`
 - `getChallenge` - Get challenge/hashtag info `getChallenge($challenge)`
