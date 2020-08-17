@@ -29,6 +29,8 @@ $musicFeed=$api->getMusicFeed("6798898508385585925");
 
 $videoData=$api->getVideoByID("6829540826570296577");
 
+$videoData=$api->getVideoByUrl("https://www.tiktok.com/@zachking/video/6829303572832750853");
+
 ```
 
 # Available methods
@@ -41,6 +43,7 @@ $videoData=$api->getVideoByID("6829540826570296577");
 - `getMusic` - Get music info `getMusic($music_id)`
 - `getMusicFeed` - Get music feed `getMusicFeed($music_id,$maxCursor)`
 - `getVideoByID` - Get video by ID `getVideoByID($video_id)`
+- `getVideoByUrl` - Get video by URL `getVideoByUrl($video_url)`
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed object.
 

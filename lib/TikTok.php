@@ -143,7 +143,7 @@ class Api
         }
         return false;
     }
-   
+
     public function getVideoByID($video_id = "")
     {
         if (empty($video_id)) {
@@ -154,7 +154,37 @@ class Api
             return $result->body->videoData;
         }
         return false;
-    }    
+    }
+
+    public function getVideoByUrl($url = "")
+    {
+
+        if (!preg_match("/https?:\/\/([^\.]+)?\.tiktok\.com/", $url)) {
+            throw new \Exception("Invalid VIDEO URL");
+        }
+        $result      = $this->remote_call($url, false);
+        $result_data = $this->string_between($result, '{"props":{"initialProps":{', "</script>");
+        if (!empty($result_data)) {
+            $videoData = json_decode('{"props":{"initialProps":{' . $result_data);
+            if (isset($videoData->props->pageProps->videoData)) {
+                return $videoData->props->pageProps->videoData;
+            }
+        }
+        return false;
+    }
+
+    public function string_between($string, $start, $end)
+    {
+        $string = ' ' . $string;
+        $ini    = strpos($string, $start);
+        if (0 == $ini) {
+            return '';
+        }
+
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        return substr($string, $ini, $len);
+    }
 
     private function remote_call($url = "", $isJson = true)
     {
