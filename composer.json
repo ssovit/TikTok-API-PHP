@@ -27,5 +27,8 @@
 			"TikTok\\": "lib"
 		}
 	},
-	"type": "library"
+	"type": "library",
+	"archive": {
+        "exclude": ["/example", "/.github"]
+    }
 }
