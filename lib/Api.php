@@ -188,7 +188,12 @@ class Api
         if (!empty($result_data)) {
             $videoData = json_decode('{"props":{"initialProps":{' . $result_data);
             if (isset($videoData->props->pageProps->videoData)) {
-                return Helper::parseData([$videoData->props->pageProps->videoData]);
+                return [
+                    "items"     => Helper::parseData([$videoData->props->pageProps->videoData]),
+                    "hasMore"   => false,
+                    "minCursor" => '0',
+                    "maxCursor" => ' 0',
+                ];
             }
         }
         return false;
