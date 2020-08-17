@@ -2,7 +2,7 @@
 	"name": "ssovit/tiktok-api-php",
 	"description": "Unofficial TikTok API for PHP",
 	"license": "MIT",
-	"homepage": "https://github.com/ssovit/",
+	"homepage": "https://github.com/ssovit/TikTok-API-PHP",
 	"keywords": [
 		"tiktok",
 		"tiktok-api",
@@ -13,7 +13,7 @@
 		{
 			"name": "Sovit Tamrakar",
 			"email": "sovit.tamrakar@gmail.com",
-			"homepage": "https://ssovit.com/",
+			"homepage": "https://github.com/ssovit/",
 			"role": "Developer"
 		}
 	],

@@ -27,6 +27,8 @@ $musc=$api->getMusic("6798898508385585925");
 
 $musicFeed=$api->getMusicFeed("6798898508385585925");
 
+$videoData=$api->getVideoByID("6829540826570296577");
+
 ```
 
 # Available methods
@@ -38,6 +40,7 @@ $musicFeed=$api->getMusicFeed("6798898508385585925");
 - `getChallengeFeedByName` - Get challenge feed by name `getChallengeFeedByName($challenge,$maxCursor)`
 - `getMusic` - Get music info `getMusic($music_id)`
 - `getMusicFeed` - Get music feed `getMusicFeed($music_id,$maxCursor)`
+- `getVideoByID` - Get video by ID `getVideoByID($video_id)`
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed object.
 
