@@ -11,7 +11,7 @@ class Api
         "user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
         "proxy-host"     => false,
         "proxy-port"     => false,
-        "proxy-username"     => false,
+        "proxy-username" => false,
         "proxy-password" => false,
     ];
 
@@ -50,7 +50,12 @@ class Api
         ];
         $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param));
         if (isset($result->body->itemListData)) {
-            return $result->body;
+            return [
+                "items"     => Helper::parseData($result->body->itemListData),
+                "hasMore"   => $result->body->hasMore,
+                "minCursor" => $result->body->minCursor,
+                "maxCursor" => $result->body->maxCursor,
+            ];
         }
         return false;
     }
@@ -96,8 +101,14 @@ class Api
             "verifyFp"  => "",
         ];
         $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param));
+
         if (isset($result->body->itemListData)) {
-            return $result->body;
+            return [
+                "items"     => Helper::parseData($result->body->itemListData),
+                "hasMore"   => $result->body->hasMore,
+                "minCursor" => $result->body->minCursor,
+                "maxCursor" => $result->body->maxCursor,
+            ];
         }
         return false;
     }
@@ -132,7 +143,12 @@ class Api
         ];
         $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param));
         if (isset($result->body->itemListData)) {
-            return $result->body;
+            return [
+                "items"     => Helper::parseData($result->body->itemListData),
+                "hasMore"   => $result->body->hasMore,
+                "minCursor" => $result->body->minCursor,
+                "maxCursor" => $result->body->maxCursor,
+            ];
         }
         return false;
     }
@@ -168,27 +184,14 @@ class Api
             throw new \Exception("Invalid VIDEO URL");
         }
         $result      = $this->remote_call($url, false);
-        $result_data = $this->string_between($result, '{"props":{"initialProps":{', "</script>");
+        $result_data = Helper::string_between($result, '{"props":{"initialProps":{', "</script>");
         if (!empty($result_data)) {
             $videoData = json_decode('{"props":{"initialProps":{' . $result_data);
             if (isset($videoData->props->pageProps->videoData)) {
-                return $videoData->props->pageProps->videoData;
+                return Helper::parseData([$videoData->props->pageProps->videoData]);
             }
         }
         return false;
-    }
-
-    public function string_between($string, $start, $end)
-    {
-        $string = ' ' . $string;
-        $ini    = strpos($string, $start);
-        if (0 == $ini) {
-            return '';
-        }
-
-        $ini += strlen($start);
-        $len = strpos($string, $end, $ini) - $ini;
-        return substr($string, $ini, $len);
     }
 
     private function remote_call($url = "", $isJson = true)
@@ -214,7 +217,7 @@ class Api
         }
         if ($this->_config['proxy-host'] && $this->_config['proxy-port']) {
             curl_setopt($ch, CURLOPT_PROXY, $this->_config['proxy-host'] . ":" . $this->_config['proxy-port']);
-            if($this->_config['proxy-username'] && $this->_config['proxy-password']){
+            if ($this->_config['proxy-username'] && $this->_config['proxy-password']) {
                 curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->_config['proxy-username'] . ":" . $this->_config['proxy-password']);
             }
         }
