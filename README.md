@@ -39,7 +39,8 @@ $api=new \TikTok\Api(array(
         "proxy-host"     => false,
         "proxy-port"     => false,
         "proxy-username" => false,
-        "proxy-password" => false
+        "proxy-password" => false,
+        "cache-timeout"  => 3600 // 2 hours cache timeout
     ));
 ```
 

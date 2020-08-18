@@ -27,8 +27,11 @@
 			"TikTok\\": "lib"
 		}
 	},
+	"require": {
+		"phpfastcache/phpfastcache": "^7.1"
+	},
 	"type": "library",
 	"archive": {
-        "exclude": ["/example", "/.github"]
-    }
+		"exclude": ["/example", ".github"]
+	}
 }

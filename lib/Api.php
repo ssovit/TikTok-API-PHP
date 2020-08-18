@@ -7,17 +7,21 @@ class Api
 
     private $_config = [];
 
+    private $cache = false;
+
     private $defaults = [
         "user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
         "proxy-host"     => false,
         "proxy-port"     => false,
         "proxy-username" => false,
         "proxy-password" => false,
+        "cache-timeout"  => 3600, // 2 hours
     ];
 
     public function __construct($config = [])
     {
         $this->_config = array_merge($this->defaults, $config);
+        $this->cache   = new \Phpfastcache\Helper\Psr16Adapter("Files");
     }
 
     public function getChallenge($challenge = "")
@@ -201,6 +205,9 @@ class Api
 
     private function remote_call($url = "", $isJson = true)
     {
+        if (!is_null($this->cache->get(Helper::normalize($url)))) {
+            return $this->cache->get(Helper::normalize($url));
+        }
         $ch      = curl_init();
         $options = [
             CURLOPT_URL            => $url,
@@ -229,8 +236,9 @@ class Api
         $data = curl_exec($ch);
         curl_close($ch);
         if ($isJson) {
-            $data = @json_decode($data);
+            $data = json_decode($data);
         }
+        $this->cache->set(Helper::normalize($url), $data, $this->_config['cache-timeout']);
         return $data;
     }
 }

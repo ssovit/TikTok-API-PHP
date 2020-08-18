@@ -3,6 +3,14 @@ namespace TikTok;
 
 class Helper
 {
+    public static function normalize($string)
+    {
+        $string = preg_replace("/([^a-z0-9])/", "-", strtolower($string));
+        $string = preg_replace("/(\s+)/", "-", strtolower($string));
+        $string = preg_replace("/([-]+){2,}/", "-", strtolower($string));
+        return $string;
+    }
+
     public static function parseData($items = [])
     {
         $final = [];
