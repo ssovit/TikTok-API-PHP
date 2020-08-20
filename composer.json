@@ -28,7 +28,7 @@
 		}
 	},
 	"require": {
-		"phpfastcache/phpfastcache": "^7.1"
+		"phpfastcache/phpfastcache": "^7.1 || ^8.0"
 	},
 	"type": "library",
 	"archive": {
