@@ -21,7 +21,7 @@ class Api
 
     public function __construct($config = [], $cacheEngine = false)
     {
-        $this->_config = array_merge($this->defaults, $config);
+        $this->_config = array_merge(['cookie_file' => sys_get_temp_dir() . 'tiktok.txt'], $this->defaults, $config);
         if ($cacheEngine) {
             $this->cache = $cacheEngine;
         }
@@ -147,6 +147,37 @@ class Api
                 ];
             }
         }
+        return false;
+    }
+
+    public function getTrendingFeed($maxCursor = '0')
+    {
+        $param = [
+            "type"      => 5,
+            "secUid"    => "",
+            "id"        => 1,
+            "count"     => 30,
+            "minCursor" => "0",
+            "maxCursor" => $maxCursor>0?1:0,
+            "shareUid"  => "",
+            "lang"      => "en",
+            "verifyFp"  => "",
+        ];
+        $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param), 'trending-' . $maxCursor);
+        if (isset($result->body->itemListData)) {
+            return [
+                "statusCode" => 0,
+                "info"       => [
+                    'type'   => 'trending',
+                    'detail' => false,
+                ],
+                "items"      => Helper::parseData($result->body->itemListData),
+                "hasMore"    => @$result->body->hasMore,
+                "minCursor"  => $maxCursor,
+                "maxCursor"  => ++$maxCursor,
+            ];
+        }
+
         return false;
     }
 
@@ -290,7 +321,11 @@ class Api
             CURLOPT_HTTPHEADER     => [
                 'Referer: https://www.tiktok.com/foryou?lang=en',
             ],
+            CURLOPT_COOKIEJAR      => $this->_config['cookie_file'],
         ];
+        if (file_exists($this->_config['cookie_file'])) {
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $this->_config['cookie_file']);
+        }
         curl_setopt_array($ch, $options);
         if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
             curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);

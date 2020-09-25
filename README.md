@@ -10,21 +10,21 @@ Unofficial TikTok API for PHP
 Follow examples in `/example` directory
 
 ```php
-use TikTok\Api as TikTokApi;
+$api=new \SovitTikTok\Api(array());
 
-$api=new TikTokApi(array());
+$trendingFeed=$api->getTrendingFeed($maxCursor=0);
 
 $userData=$api->getUser("tiktok");
 
-$userFeed=$api->getUserFeedByName("tiktok");
+$userFeed=$api->getUserFeed("tiktok",$maxCursor=0);
 
 $challenge=$api->getChallenge("foryourpage");
 
-$challengeFeed=$api->getChallengeFeedByName("foryourpage");
+$challengeFeed=$api->getChallengeFeed("foryourpage",$maxCursor=0);
 
 $musc=$api->getMusic("6798898508385585925");
 
-$musicFeed=$api->getMusicFeed("6798898508385585925");
+$musicFeed=$api->getMusicFeed("6798898508385585925",$maxCursor=0);
 
 $videoData=$api->getVideoByID("6829540826570296577");
 
@@ -34,13 +34,14 @@ $videoData=$api->getVideoByUrl("https://www.tiktok.com/@zachking/video/682930357
 
 # Available Options
 ```php
-$api=new \TikTok\Api(array(
+$api=new \SovitTikTok\Api(array(
 		"user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
         "proxy-host"     => false,
         "proxy-port"     => false,
         "proxy-username" => false,
         "proxy-password" => false,
-        "cache-timeout"  => 3600 // 2 hours cache timeout
+        "cache-timeout"  => 3600 // 1 hours cache timeout
+        "cookie_file"  => sys_get_temp_dir() . 'tiktok.txt' // cookie file, necessary for trending feed
     ));
 ```
 
@@ -49,6 +50,7 @@ To use proxy, provide `proxy-host`, `proxy-port`, `proxy-username`, `proxy-passw
 It's highly recommended that you use proxy to prevent your IP from getting banned.
 
 # Available methods
+- `getTrendingFeed` - Get trending feed `getUser($maxCursor)`
 - `getUser` - Get profile data for TikTok User `getUser($username)`
 - `getUserFeed` - Get user feed by ID `getUserFeed($user_id,$maxCursor)`
 - `getUserFeedByName` - Get user feed by Name `getUserFeedByName($username,$maxCursor)`
@@ -60,7 +62,7 @@ It's highly recommended that you use proxy to prevent your IP from getting banne
 - `getVideoByID` - Get video by ID `getVideoByID($video_id)`
 - `getVideoByUrl` - Get video by URL `getVideoByUrl($video_url)`
 
-`$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed object.
+`$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
 # Want to improve this? Want to contribute?
 Don't hesitate to create pull requests.
