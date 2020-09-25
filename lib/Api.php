@@ -9,6 +9,8 @@ class Api
 
     private $cache = false;
 
+    private $cacheEnabled = false;
+
     private $defaults = [
         "user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
         "proxy-host"     => false,
@@ -23,7 +25,8 @@ class Api
     {
         $this->_config = array_merge(['cookie_file' => sys_get_temp_dir() . 'tiktok.txt'], $this->defaults, $config);
         if ($cacheEngine) {
-            $this->cache = $cacheEngine;
+            $this->cacheEnabled = true;
+            $this->cache        = $cacheEngine;
         }
     }
 
@@ -158,7 +161,7 @@ class Api
             "id"        => 1,
             "count"     => 30,
             "minCursor" => "0",
-            "maxCursor" => $maxCursor>0?1:0,
+            "maxCursor" => $maxCursor > 0 ? 1 : 0,
             "shareUid"  => "",
             "lang"      => "en",
             "verifyFp"  => "",
@@ -301,8 +304,10 @@ class Api
 
     private function remote_call($url = "", $cacheKey = false, $isJson = true)
     {
-        if ($this->cache && !is_null($this->cache->get($cacheKey))) {
-            return $this->cache->get($cacheKey);
+        if ($this->cacheEnabled) {
+            if ($this->cache->get($cacheKey)) {
+                return $this->cache->get($cacheKey);
+            }
         }
         $ch      = curl_init();
         $options = [
@@ -341,7 +346,7 @@ class Api
         if ($isJson) {
             $data = json_decode($data);
         }
-        if ($this->cache) {
+        if ($this->cacheEnabled) {
             $this->cache->set($cacheKey, $data, $this->_config['cache-timeout']);
         }
         return $data;
