@@ -37,7 +37,7 @@ class Api
         }
         $result = $this->remote_call(self::API_BASE . "share/tag/{$challenge}", 'challenge-' . $challenge);
         if (isset($result->body->challengeData)) {
-            return (object)[
+            return (object) [
                 'coverLarger'   => @$result->body->challengeData->coversMedium[0],
                 'coverMedium'   => @$result->body->challengeData->coversMedium[0],
                 'coverThumb'    => @$result->body->challengeData->covers[0],
@@ -48,7 +48,7 @@ class Api
                 'profileMedium' => @$result->body->challengeData->coversMedium[0],
                 'profileThumb'  => @$result->body->challengeData->covers[0],
                 'title'         => @$result->body->challengeData->challengeName,
-                "stats"         => (object)[
+                "stats"         => (object) [
                     'videoCount' => @$result->body->challengeData->posts,
                     'viewCount'  => @$result->body->challengeData->views],
 
@@ -67,7 +67,7 @@ class Api
             $param = [
                 "type"      => 3,
                 "secUid"    => "",
-                "id"        => $challenge['id'],
+                "id"        => $challenge->id,
                 "count"     => 30,
                 "minCursor" => "0",
                 "maxCursor" => $maxCursor,
@@ -77,9 +77,9 @@ class Api
             ];
             $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param), 'challenge-' . $challenge_name . '-' . $maxCursor);
             if (isset($result->body->itemListData)) {
-                return (object)[
+                return (object) [
                     "statusCode" => 0,
-                    "info"       => (object)[
+                    "info"       => (object) [
                         'type'   => 'challenge',
                         'detail' => $challenge,
                     ],
@@ -100,7 +100,7 @@ class Api
         }
         $result = $this->remote_call(self::API_BASE . "share/music/original-sound-{$music_id}", 'music-' . $music_id);
         if (isset($result->body->musicData)) {
-            return (object)[
+            return (object) [
                 'authorName'  => @$result->body->musicData->authorName,
                 'coverLarge'  => @$result->body->musicData->coversMedium[0],
                 'coverMedium' => @$result->body->musicData->coversMedium[0],
@@ -110,8 +110,8 @@ class Api
                 'playUrl'     => @$result->body->musicData->playUrl->UrlList[0],
                 'private'     => @$result->body->musicData->private,
                 'title'       => @$result->body->musicData->musicName,
-                'stats'       => (object)[
-                    'videoCount' => @$result->body->musicData->posts
+                'stats'       => (object) [
+                    'videoCount' => @$result->body->musicData->posts,
                 ],
             ];
         }
@@ -138,9 +138,9 @@ class Api
             ];
             $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param), 'music-feed-' . $music_id . '-' . $maxCursor);
             if (isset($result->body->itemListData)) {
-                return (object)[
+                return (object) [
                     "statusCode" => 0,
-                    "info"       => (object)[
+                    "info"       => (object) [
                         'type'   => 'music',
                         'detail' => $music,
                     ],
@@ -164,7 +164,7 @@ class Api
             $video = $data->items[0];
             if ($video->createTime < 1595894400) {
                 // only attempt to get video ID before 28th July 2020
-                $ch            = curl_init();
+                $ch = curl_init();
 
                 $options = [
                     CURLOPT_URL            => $video->video->downloadAddr,
@@ -223,9 +223,9 @@ class Api
         ];
         $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param), 'trending-' . $maxCursor);
         if (isset($result->body->itemListData)) {
-            return (object)[
+            return (object) [
                 "statusCode" => 0,
-                "info"       => (object)[
+                "info"       => (object) [
                     'type'   => 'trending',
                     'detail' => false,
                 ],
@@ -246,7 +246,7 @@ class Api
         }
         $result = $this->remote_call(self::API_BASE . "share/user/@{$username}", 'user-' . $username);
         if (isset($result->body->userData)) {
-            return (object)[
+            return (object) [
                 'avatarLarger' => @$result->body->userData->coversMedium[0],
                 'avatarMedium' => @$result->body->userData->coversMedium[0],
                 'avatarThumb'  => @$result->body->userData->covers[0],
@@ -259,7 +259,7 @@ class Api
                 'signature'    => @$result->body->userData->signature,
                 'uniqueId'     => @$result->body->userData->uniqueId,
                 'verified'     => @$result->body->userData->verified,
-                'stats'        => (object)[
+                'stats'        => (object) [
                     'diggCount'      => @$result->body->userData->digg,
                     'followerCount'  => @$result->body->userData->fans,
                     'followingCount' => @$result->body->userData->following,
@@ -282,7 +282,7 @@ class Api
             $param = [
                 "type"      => 1,
                 "secUid"    => "",
-                "id"        => $user['id'],
+                "id"        => $user->id,
                 "count"     => 30,
                 "minCursor" => "0",
                 "maxCursor" => $maxCursor,
@@ -292,9 +292,9 @@ class Api
             ];
             $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param), 'user-feed-' . $username . '-' . $maxCursor);
             if (isset($result->body->itemListData)) {
-                return (object)[
+                return (object) [
                     "statusCode" => 0,
-                    "info"       => (object)[
+                    "info"       => (object) [
                         'type'   => 'user',
                         'detail' => $user,
                     ],
@@ -315,9 +315,9 @@ class Api
         }
         $result = $this->remote_call(self::API_BASE . "embed/render/{$video_id}", 'video-' . $video_id);
         if (isset($result->body->videoData)) {
-            return (object)[
+            return (object) [
                 'statusCode' => 0,
-                'info'       => (object)[
+                'info'       => (object) [
                     'type'   => 'video',
                     'detail' => 'https://m.tiktok.com/v/' . $video_id . '.html',
                 ],
@@ -341,9 +341,9 @@ class Api
         if (!empty($result_data)) {
             $videoData = json_decode('{"props":{"initialProps":{' . $result_data);
             if (isset($videoData->props->pageProps->videoData)) {
-                return (object)[
+                return (object) [
                     'statusCode' => 0,
-                    'info'       => (object)[
+                    'info'       => (object) [
                         'type'   => 'video',
                         'detail' => $url,
                     ],
