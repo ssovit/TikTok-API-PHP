@@ -57,7 +57,7 @@ class Api
         return false;
     }
 
-    public function getChallengeFeed($challenge_name = "", $maxCursor = '0')
+    public function getChallengeFeed($challenge_name = "", $maxCursor = 0)
     {
         if (empty($challenge_name)) {
             throw new \Exception("Invalid Challenge");
@@ -69,7 +69,7 @@ class Api
                 "secUid"    => "",
                 "id"        => $challenge->id,
                 "count"     => 30,
-                "minCursor" => "0",
+                "minCursor" => 0,
                 "maxCursor" => $maxCursor,
                 "shareUid"  => "",
                 "lang"      => "",
@@ -85,8 +85,8 @@ class Api
                     ],
                     "items"      => Helper::parseData($result->body->itemListData),
                     "hasMore"    => @$result->body->hasMore,
-                    "minCursor"  => @$result->body->minCursor,
-                    "maxCursor"  => @$result->body->maxCursor,
+                    "minCursor"  => $maxCursor,
+                    "maxCursor"  => $maxCursor+30,
                 ];
             }
         }
@@ -118,7 +118,7 @@ class Api
         return false;
     }
 
-    public function getMusicFeed($music_id = "", $maxCursor = '0')
+    public function getMusicFeed($music_id = "", $maxCursor = 0)
     {
         if (empty($music_id)) {
             throw new \Exception("Invalid Music ID");
@@ -130,7 +130,7 @@ class Api
                 "secUid"    => "",
                 "id"        => $music_id,
                 "count"     => 30,
-                "minCursor" => "0",
+                "minCursor" => 0,
                 "maxCursor" => $maxCursor,
                 "shareUid"  => "",
                 "lang"      => "",
@@ -208,14 +208,14 @@ class Api
         return false;
     }
 
-    public function getTrendingFeed($maxCursor = '0')
+    public function getTrendingFeed($maxCursor = 0)
     {
         $param = [
             "type"      => 5,
             "secUid"    => "",
             "id"        => 1,
             "count"     => 30,
-            "minCursor" => "0",
+            "minCursor" => 0,
             "maxCursor" => $maxCursor > 0 ? 1 : 0,
             "shareUid"  => "",
             "lang"      => "en",
