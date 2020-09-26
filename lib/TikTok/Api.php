@@ -28,6 +28,9 @@ class Api
             $this->cacheEnabled = true;
             $this->cache        = $cacheEngine;
         }
+        if (!file_exists($this->_config['cookie_file'])) {
+            @touch($this->_config['cookie_file']);
+        }
     }
 
     public function getChallenge($challenge = "")
@@ -86,7 +89,7 @@ class Api
                     "items"      => Helper::parseData($result->body->itemListData),
                     "hasMore"    => @$result->body->hasMore,
                     "minCursor"  => $maxCursor,
-                    "maxCursor"  => $maxCursor+30,
+                    "maxCursor"  => $maxCursor + 30,
                 ];
             }
         }
