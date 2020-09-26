@@ -3,14 +3,14 @@
 
 Unofficial TikTok API for PHP
 
-# Installation
+# Installation via Composer
 `composer require ssovit/tiktok-api`
 
 # Usage
 Follow examples in `/example` directory
 
 ```php
-$api=new \SovitTikTok\Api(array());
+$api=new \Sovit\TikTok\Api(array(/* config array*/));
 
 $trendingFeed=$api->getTrendingFeed($maxCursor=0);
 
@@ -30,11 +30,13 @@ $videoData=$api->getVideoByID("6829540826570296577");
 
 $videoData=$api->getVideoByUrl("https://www.tiktok.com/@zachking/video/6829303572832750853");
 
+$noWatermark=$api->getNoWatermark("https://www.tiktok.com/@zachking/video/6829303572832750853");
+
 ```
 
 # Available Options
 ```php
-$api=new \SovitTikTok\Api(array(
+$api=new \Sovit\TikTok\Api(array(
 		"user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
         "proxy-host"     => false,
         "proxy-port"     => false,
@@ -61,6 +63,7 @@ It's highly recommended that you use proxy to prevent your IP from getting banne
 - `getMusicFeed` - Get music feed `getMusicFeed($music_id,$maxCursor)`
 - `getVideoByID` - Get video by ID `getVideoByID($video_id)`
 - `getVideoByUrl` - Get video by URL `getVideoByUrl($video_url)`
+- `getNoWatermark` - Get no watermark for video by URL `getNoWatermark($video_url)` *(only works for videos before 28th July 2020)*
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
@@ -68,4 +71,4 @@ It's highly recommended that you use proxy to prevent your IP from getting banne
 Don't hesitate to create pull requests.
 
 # Disclaimer
-TikTok is always updating their API endpoints and have watchdogs everywhere, and I take no responsibility if you or your IP gets banned using this API. It's recommended that you use proxy.
+TikTok is always updating their API endpoints but I will try to keep this library whenever possible. I take no responsibility if you or your IP gets banned using this API. It's recommended that you use proxy.
