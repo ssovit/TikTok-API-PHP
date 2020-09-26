@@ -3,6 +3,39 @@ namespace Sovit\TikTok;
 
 class Helper
 {
+    public static function finalUrl($url)
+    {
+        $ch      = curl_init();
+        $options = [
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => false,
+            CURLOPT_HTTPHEADER     => [
+                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                'Accept-Encoding: gzip, deflate, br',
+                'Accept-Language: en-US,en;q=0.9',
+                'Connection: keep-alive',
+            ],
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_USERAGENT      => 'okhttp',
+            CURLOPT_ENCODING       => "utf-8",
+            CURLOPT_AUTOREFERER    => false,
+            CURLOPT_CONNECTTIMEOUT => 30,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT        => 30,
+            CURLOPT_MAXREDIRS      => 10,
+        ];
+        curl_setopt_array($ch, $options);
+        if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
+            curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        }
+        $data = curl_exec($ch);
+        $final = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+        curl_close($ch);
+        return $final;
+    }
+
     public static function normalize($string)
     {
         $string = preg_replace("/([^a-z0-9])/", "-", strtolower($string));
@@ -15,11 +48,11 @@ class Helper
     {
         $final = [];
         foreach ($items as $item) {
-            $final[] = [
+            $final[] = (object) [
                 "id"                => @$item->itemInfos->id,
                 "desc"              => @$item->itemInfos->text,
                 "createTime"        => @$item->itemInfos->createTime,
-                "video"             => [
+                "video"             => (object) [
                     "height"       => @$item->itemInfos->video->videoMeta->height,
                     "width"        => @$item->itemInfos->video->videoMeta->width,
                     "duration"     => @$item->itemInfos->video->videoMeta->duration,
@@ -30,7 +63,7 @@ class Helper
                     "playAddr"     => @$item->itemInfos->video->urls[0],
                     "downloadAddr" => @$item->itemInfos->video->urls[0],
                 ],
-                "author"            => [
+                "author"            => (object) [
                     "id"           => @$item->authorInfos->userId,
                     "uniqueId"     => @$item->authorInfos->uniqueId,
                     "nickname"     => @$item->authorInfos->nickName,
@@ -41,7 +74,7 @@ class Helper
                     "verified"     => @$item->authorInfos->verified,
                     "secUid"       => @$item->authorInfos->secUid,
                 ],
-                "music"             => [
+                "music"             => (object) [
                     "id"          => @$item->musicInfos->musicId,
                     "title"       => @$item->musicInfos->musicName,
                     "playUrl"     => @$item->musicInfos->playUrl[0],
@@ -51,7 +84,7 @@ class Helper
                     "authorName"  => @$item->musicInfos->authorName,
                     "original"    => @$item->musicInfos->original,
                 ],
-                "stats"             => [
+                "stats"             => (object) [
                     "diggCount"    => @$item->itemInfos->diggCount,
                     "shareCount"   => @$item->itemInfos->shareCount,
                     "commentCount" => @$item->itemInfos->commentCount,
