@@ -1,5 +1,5 @@
 <?php
-namespace SovitTikTok;
+namespace Sovit\TikTok;
 
 class Helper
 {
