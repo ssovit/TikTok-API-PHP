@@ -25,11 +25,9 @@ class Stream
 
     public function headerCallback($ch, $data)
     {
-        // this should be first line
         if (preg_match('/HTTP\/[\d.]+\s*(\d+)/', $data, $matches)) {
             $status_code = $matches[1];
 
-            // if Forbidden or Not Found -> those are "valid" statuses too
             if (200 == $status_code || 206 == $status_code || 403 == $status_code || 404 == $status_code) {
                 $this->headers_sent = true;
                 $this->sendHeader(rtrim($data));
@@ -37,7 +35,6 @@ class Stream
 
         } else {
 
-            // only headers we wish to forward back to the client
             $forward = ['content-type', 'content-length', 'accept-ranges', 'content-range'];
 
             $parts = explode(':', $data, 2);
@@ -71,16 +68,13 @@ class Stream
         curl_setopt($ch, CURLOPT_BUFFERSIZE, $this->buffer_size);
         curl_setopt($ch, CURLOPT_URL, $url);
 
-        //curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
-        // we deal with this ourselves
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0);
         curl_setopt($ch, CURLOPT_HEADER, 0);
 
         curl_setopt($ch, CURLOPT_HEADERFUNCTION, [$this, 'headerCallback']);
 
-        // if response is empty - this never gets called
         curl_setopt($ch, CURLOPT_WRITEFUNCTION, [$this, 'bodyCallback']);
 
         $ret = curl_exec($ch);
