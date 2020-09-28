@@ -37,14 +37,14 @@ $noWatermark=$api->getNoWatermark("https://www.tiktok.com/@zachking/video/682930
 # Available Options
 ```php
 $api=new \Sovit\TikTok\Api(array(
-		"user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
-        "proxy-host"     => false,
-        "proxy-port"     => false,
-        "proxy-username" => false,
-        "proxy-password" => false,
-        "cache-timeout"  => 3600 // 1 hours cache timeout
-        "cookie_file"  => sys_get_temp_dir() . 'tiktok.txt' // cookie file, necessary for trending feed
-    ), $cache_engine=false);
+	"user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
+	"proxy-host"     => false,
+	"proxy-port"     => false,
+	"proxy-username" => false,
+	"proxy-password" => false,
+	"cache-timeout"  => 3600 // 1 hours cache timeout
+	"cookie_file"  => sys_get_temp_dir() . 'tiktok.txt' // cookie file, necessary for trending feed
+	), $cache_engine=false);
 ```
 
 #Cache Engine
@@ -66,7 +66,7 @@ Class MyCacheEngine{
 **Usage**
 ```php
 $cache_engine=new MyCacheEngine();
-$api=new \Sovit\TikTok\Api([],$cache_engine);
+$api=new \Sovit\TikTok\Api(array(/* config array*/),$cache_engine);
 ```
 
 
