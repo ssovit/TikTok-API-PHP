@@ -1,4 +1,5 @@
 <?php
+
 namespace Sovit\TikTok;
 
 class Api
@@ -21,7 +22,7 @@ class Api
 
     ];
 
-    public function __construct($config = [], $cacheEngine = false)
+    public function __construct($config = array(), $cacheEngine = false)
     {
         $this->_config = array_merge(['cookie_file' => sys_get_temp_dir() . 'tiktok.txt'], $this->defaults, $config);
         if ($cacheEngine) {
@@ -53,7 +54,8 @@ class Api
                 'title'         => @$result->body->challengeData->challengeName,
                 "stats"         => (object) [
                     'videoCount' => @$result->body->challengeData->posts,
-                    'viewCount'  => @$result->body->challengeData->views],
+                    'viewCount'  => @$result->body->challengeData->views
+                ],
 
             ];
         }
@@ -200,13 +202,12 @@ class Api
                 $parts = explode("vid:", $data);
                 if (count($parts) > 1) {
                     $video_id = trim(explode("%", $parts[1])[0]);
-                    return (object) ["id" => $video_id,
+                    return (object) [
+                        "id" => $video_id,
                         "url"                 => Helper::finalUrl("https://api-h2.tiktokv.com/aweme/v1/play/?video_id={$video_id}&vr_type=0&is_play_url=1&source=PackSourceEnum_FEED&media_type=4&ratio=default&improve_bitrate=1"),
                     ];
                 }
-
             }
-
         }
         return false;
     }
