@@ -1,6 +1,7 @@
 <?php
+error_reporting(E_ALL);
 header("Content-Type: application/json");
-include __DIR__."/../vendor/autoload.php";
+include __DIR__ . "/../vendor/autoload.php";
 $api = new \Sovit\TikTok\Api();
 $result = $api->getUser("tiktok");
-echo json_encode($result,JSON_PRETTY_PRINT);
+echo json_encode($result, JSON_PRETTY_PRINT);

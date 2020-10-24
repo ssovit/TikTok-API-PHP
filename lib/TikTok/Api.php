@@ -14,15 +14,13 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
         private $cacheEnabled = false;
 
         private $defaults = [
-            "user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
+            "user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36',
             "proxy-host"     => false,
             "proxy-port"     => false,
             "proxy-username" => false,
             "proxy-password" => false,
             "cache-timeout"  => 3600, // in seconds
-
         ];
-
         public function __construct($config = array(), $cacheEngine = false)
         {
             $this->_config = array_merge(['cookie_file' => sys_get_temp_dir() . 'tiktok.txt'], $this->defaults, $config);
@@ -30,9 +28,35 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 $this->cacheEnabled = true;
                 $this->cache        = $cacheEngine;
             }
-            if (!file_exists($this->_config['cookie_file'])) {
-                @touch($this->_config['cookie_file']);
-            }
+            // if (!file_exists($this->_config['cookie_file'])) {
+            //     $this->remote_call("https://www.tiktok.com/foryou?lang=en", 'tiktok-init');
+            // }
+            // $browser = \explode("/", $this->_config['user-agent'], 2);
+            // $this->default_params = array(
+            //     'aid' => 1988,
+            //     'app_name' => 'tiktok_web',
+            //     'device_platform' => 'web',
+            //     'referer' => 'https://www.tiktok.com/',
+            //     'user_agent' => $this->_config['user-agent'],
+            //     'cookie_enabled' => true,
+            //     'screen_width' => 1366,
+            //     'screen_height' => 768,
+            //     'browser_language' => 'en-US',
+            //     'browser_platform' => 'Win32',
+            //     'browser_name' => $browser[0],
+            //     'browser_version' => $browser[1],
+            //     'browser_online' => true,
+            //     'ac' => '4g',
+            //     'timezone_name' => 'EST',
+            //     'appId' => 1233,
+            //     'appType' => 'm',
+            //     'isAndroid' => false,
+            //     'isMobile' => false,
+            //     'isIOS' => false,
+            //     'OS' => 'windows',
+            //     'did' => random(100,999999999),
+
+            // );
         }
 
         public function getChallenge($challenge = "")
@@ -41,21 +65,21 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid Challenge");
             }
             $result = $this->remote_call(self::API_BASE . "share/tag/{$challenge}", 'challenge-' . $challenge);
-            if (isset($result->body->challengeData)) {
+            if (isset($result->challengeInfo)) {
                 return (object) [
-                    'coverLarger'   => @$result->body->challengeData->coversMedium[0],
-                    'coverMedium'   => @$result->body->challengeData->coversMedium[0],
-                    'coverThumb'    => @$result->body->challengeData->covers[0],
-                    'desc'          => @$result->body->challengeData->text,
-                    'id'            => @$result->body->challengeData->challengeId,
-                    'isCommerce'    => @$result->body->challengeData->isCommerce,
-                    'profileLarger' => @$result->body->challengeData->coversMedium[0],
-                    'profileMedium' => @$result->body->challengeData->coversMedium[0],
-                    'profileThumb'  => @$result->body->challengeData->covers[0],
-                    'title'         => @$result->body->challengeData->challengeName,
+                    'id'            => @$result->challengeInfo->challenge->id,
+                    'title'         => @$result->challengeInfo->challenge->title,
+                    'desc'          => @$result->challengeInfo->challenge->desc,
+                    'coverThumb'    => @$result->challengeInfo->challenge->coverThumb,
+                    'coverMedium'   => @$result->challengeInfo->challenge->coverMedium,
+                    'coverLarger'   => @$result->challengeInfo->challenge->coverLarger,
+                    'profileThumb'  => @$result->challengeInfo->challenge->profileThumb,
+                    'profileMedium' => @$result->challengeInfo->challenge->profileMedium,
+                    'profileLarger' => @$result->challengeInfo->challenge->profileLarger,
+                    'isCommerce'    => @$result->challengeInfo->challenge->isCommerce,
                     "stats"         => (object) [
-                        'videoCount' => @$result->body->challengeData->posts,
-                        'viewCount'  => @$result->body->challengeData->views
+                        'videoCount' => @$result->challengeInfo->stats->videoCount,
+                        'viewCount'  => @$result->challengeInfo->stats->viewCount
                     ],
 
                 ];
@@ -105,19 +129,20 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid Music ID");
             }
             $result = $this->remote_call(self::API_BASE . "share/music/original-sound-{$music_id}", 'music-' . $music_id);
-            if (isset($result->body->musicData)) {
+            if (isset($result->musicInfo)) {
                 return (object) [
-                    'authorName'  => @$result->body->musicData->authorName,
-                    'coverLarge'  => @$result->body->musicData->coversMedium[0],
-                    'coverMedium' => @$result->body->musicData->coversMedium[0],
-                    'coverThumb'  => @$result->body->musicData->covers[0],
-                    'id'          => @$result->body->musicData->musicId,
-                    'original'    => @$result->body->musicData->original,
-                    'playUrl'     => @$result->body->musicData->playUrl->UrlList[0],
-                    'private'     => @$result->body->musicData->private,
-                    'title'       => @$result->body->musicData->musicName,
+                    'id'          => @$result->musicInfo->music->id,
+                    'title'       => @$result->musicInfo->music->title,
+                    'playUrl'     => @$result->musicInfo->music->playUrl,
+                    'coverThumb'  => @$result->musicInfo->music->coverThumb,
+                    'coverMedium' => @$result->musicInfo->music->coverMedium,
+                    'coverLarge'  => @$result->musicInfo->music->coverLarge,
+                    'authorName'  => @$result->musicInfo->music->authorName,
+                    'original'    => @$result->musicInfo->music->original,
+                    'private'     => @$result->musicInfo->music->private,
+                    'duration'     => @$result->musicInfo->music->duration,
                     'stats'       => (object) [
-                        'videoCount' => @$result->body->musicData->posts,
+                        'videoCount' => @$result->musicInfo->stats->videoCount,
                     ],
                 ];
             }
@@ -250,27 +275,27 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid Username");
             }
             $result = $this->remote_call(self::API_BASE . "share/user/@{$username}", 'user-' . $username);
-            if (isset($result->body->userData)) {
+            if (isset($result->userInfo)) {
                 return (object) [
-                    'avatarLarger' => @$result->body->userData->coversMedium[0],
-                    'avatarMedium' => @$result->body->userData->coversMedium[0],
-                    'avatarThumb'  => @$result->body->userData->covers[0],
-                    'id'           => @$result->body->userData->userId,
-                    'nickname'     => @$result->body->userData->nickName,
-                    'openFavorite' => @$result->body->userData->openFavorite,
-                    'relation'     => @$result->body->userData->relation,
-                    'secUid'       => @$result->body->userData->secUid,
-                    'secret'       => @$result->body->userData->isSecret,
-                    'signature'    => @$result->body->userData->signature,
-                    'uniqueId'     => @$result->body->userData->uniqueId,
-                    'verified'     => @$result->body->userData->verified,
+                    'avatarLarger' => @$result->userInfo->user->avatarLarger,
+                    'avatarMedium' => @$result->userInfo->user->avatarMedium,
+                    'avatarThumb'  => @$result->userInfo->user->avatarThumb,
+                    'id'           => @$result->userInfo->user->id,
+                    'nickname'     => @$result->userInfo->user->nickname,
+                    'openFavorite' => @$result->userInfo->user->openFavorite,
+                    'relation'     => @$result->userInfo->user->relation,
+                    'secUid'       => @$result->userInfo->user->secUid,
+                    'secret'       => @$result->userInfo->user->secret,
+                    'signature'    => @$result->userInfo->user->signature,
+                    'uniqueId'     => @$result->userInfo->user->uniqueId,
+                    'verified'     => @$result->userInfo->user->verified,
                     'stats'        => (object) [
-                        'diggCount'      => @$result->body->userData->digg,
-                        'followerCount'  => @$result->body->userData->fans,
-                        'followingCount' => @$result->body->userData->following,
-                        'heart'          => @$result->body->userData->heart,
-                        'heartCount'     => @$result->body->userData->heart,
-                        'videoCount'     => @$result->body->userData->video,
+                        'diggCount'      => @$result->userInfo->stats->diggCount,
+                        'followerCount'  => @$result->userInfo->stats->followerCount,
+                        'followingCount' => @$result->userInfo->stats->following,
+                        'heart'          => @$result->userInfo->stats->heart,
+                        'heartCount'     => @$result->userInfo->stats->heartCount,
+                        'videoCount'     => @$result->userInfo->stats->videoCount,
                     ],
                 ];
             }
@@ -318,21 +343,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             if (empty($video_id)) {
                 throw new \Exception("Invalid VIDEO ID");
             }
-            $result = $this->remote_call(self::API_BASE . "embed/render/{$video_id}", 'video-' . $video_id);
-            if (isset($result->body->videoData)) {
-                return (object) [
-                    'statusCode' => 0,
-                    'info'       => (object) [
-                        'type'   => 'video',
-                        'detail' => 'https://m.tiktok.com/v/' . $video_id . '.html',
-                    ],
-                    "items"      => Helper::parseData([$result->body->videoData]),
-                    "hasMore"    => false,
-                    "minCursor"  => '0',
-                    "maxCursor"  => ' 0',
-                ];
-            }
-            return false;
+            return $this->getVideoByUrl('https://m.tiktok.com/v/' . $video_id . '.html');
         }
 
         public function getVideoByUrl($url = "")
@@ -342,17 +353,17 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid VIDEO URL");
             }
             $result      = $this->remote_call($url, Helper::normalize($url), false);
-            $result_data = Helper::string_between($result, '{"props":{"initialProps":{', "</script>");
-            if (!empty($result_data)) {
-                $videoData = json_decode('{"props":{"initialProps":{' . $result_data);
-                if (isset($videoData->props->pageProps->videoData)) {
+            $result = Helper::string_between($result, '{"props":{"initialProps":{', "</script>");
+            if (!empty($result)) {
+                $jsonData = json_decode('{"props":{"initialProps":{' . $result);
+                if (isset($jsonData->props->pageProps->itemInfo)) {
                     return (object) [
                         'statusCode' => 0,
                         'info'       => (object) [
                             'type'   => 'video',
                             'detail' => $url,
                         ],
-                        "items"      => Helper::parseData([$videoData->props->pageProps->videoData]),
+                        "items"      => [$jsonData->props->pageProps->itemInfo->itemStruct],
                         "hasMore"    => false,
                         "minCursor"  => '0',
                         "maxCursor"  => ' 0',
@@ -408,6 +419,38 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             if ($this->cacheEnabled) {
                 $this->cache->set($cacheKey, $data, $this->_config['cache-timeout']);
+            }
+            return $data;
+        }
+        private function remote_post($url, $body = [], $headers = [], $isJson = true)
+        {
+            $ch      = curl_init();
+            $options = [
+                CURLOPT_URL            => $url,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($body),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER         => false,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_USERAGENT      => $this->_config['user-agent'],
+                CURLOPT_ENCODING       => "utf-8",
+                CURLOPT_AUTOREFERER    => true,
+                CURLOPT_CONNECTTIMEOUT => 30,
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_TIMEOUT        => 30,
+                CURLOPT_MAXREDIRS      => 10,
+                CURLOPT_HTTPHEADER     => $headers,
+                CURLOPT_COOKIEJAR      => $this->_config['cookie_file'],
+            ];
+            curl_setopt_array($ch, $options);
+            if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
+                curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+            }
+            $data = curl_exec($ch);
+            curl_close($ch);
+            if ($isJson) {
+                $data = json_decode($data);
             }
             return $data;
         }
