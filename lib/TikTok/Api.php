@@ -66,23 +66,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $result = $this->remote_call(self::API_BASE . "share/tag/{$challenge}", 'challenge-' . $challenge);
             if (isset($result->challengeInfo)) {
-                return (object) [
-                    'id'            => @$result->challengeInfo->challenge->id,
-                    'title'         => @$result->challengeInfo->challenge->title,
-                    'desc'          => @$result->challengeInfo->challenge->desc,
-                    'coverThumb'    => @$result->challengeInfo->challenge->coverThumb,
-                    'coverMedium'   => @$result->challengeInfo->challenge->coverMedium,
-                    'coverLarger'   => @$result->challengeInfo->challenge->coverLarger,
-                    'profileThumb'  => @$result->challengeInfo->challenge->profileThumb,
-                    'profileMedium' => @$result->challengeInfo->challenge->profileMedium,
-                    'profileLarger' => @$result->challengeInfo->challenge->profileLarger,
-                    'isCommerce'    => @$result->challengeInfo->challenge->isCommerce,
-                    "stats"         => (object) [
-                        'videoCount' => @$result->challengeInfo->stats->videoCount,
-                        'viewCount'  => @$result->challengeInfo->stats->viewCount
-                    ],
-
-                ];
+                return $result->challengeInfo;
             }
             return false;
         }
@@ -97,7 +81,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 $param = [
                     "type"      => 3,
                     "secUid"    => "",
-                    "id"        => $challenge->id,
+                    "id"        => $challenge->challenge->id,
                     "count"     => 30,
                     "minCursor" => 0,
                     "maxCursor" => $maxCursor,
@@ -130,21 +114,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $result = $this->remote_call(self::API_BASE . "share/music/original-sound-{$music_id}", 'music-' . $music_id);
             if (isset($result->musicInfo)) {
-                return (object) [
-                    'id'          => @$result->musicInfo->music->id,
-                    'title'       => @$result->musicInfo->music->title,
-                    'playUrl'     => @$result->musicInfo->music->playUrl,
-                    'coverThumb'  => @$result->musicInfo->music->coverThumb,
-                    'coverMedium' => @$result->musicInfo->music->coverMedium,
-                    'coverLarge'  => @$result->musicInfo->music->coverLarge,
-                    'authorName'  => @$result->musicInfo->music->authorName,
-                    'original'    => @$result->musicInfo->music->original,
-                    'private'     => @$result->musicInfo->music->private,
-                    'duration'     => @$result->musicInfo->music->duration,
-                    'stats'       => (object) [
-                        'videoCount' => @$result->musicInfo->stats->videoCount,
-                    ],
-                ];
+                return $result->musicInfo;
             }
             return false;
         }
@@ -159,7 +129,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 $param = [
                     "type"      => 4,
                     "secUid"    => "",
-                    "id"        => $music_id,
+                    "id"        => $music->music->id,
                     "count"     => 30,
                     "minCursor" => 0,
                     "maxCursor" => $maxCursor,
@@ -276,28 +246,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $result = $this->remote_call(self::API_BASE . "share/user/@{$username}", 'user-' . $username);
             if (isset($result->userInfo)) {
-                return (object) [
-                    'avatarLarger' => @$result->userInfo->user->avatarLarger,
-                    'avatarMedium' => @$result->userInfo->user->avatarMedium,
-                    'avatarThumb'  => @$result->userInfo->user->avatarThumb,
-                    'id'           => @$result->userInfo->user->id,
-                    'nickname'     => @$result->userInfo->user->nickname,
-                    'openFavorite' => @$result->userInfo->user->openFavorite,
-                    'relation'     => @$result->userInfo->user->relation,
-                    'secUid'       => @$result->userInfo->user->secUid,
-                    'secret'       => @$result->userInfo->user->secret,
-                    'signature'    => @$result->userInfo->user->signature,
-                    'uniqueId'     => @$result->userInfo->user->uniqueId,
-                    'verified'     => @$result->userInfo->user->verified,
-                    'stats'        => (object) [
-                        'diggCount'      => @$result->userInfo->stats->diggCount,
-                        'followerCount'  => @$result->userInfo->stats->followerCount,
-                        'followingCount' => @$result->userInfo->stats->following,
-                        'heart'          => @$result->userInfo->stats->heart,
-                        'heartCount'     => @$result->userInfo->stats->heartCount,
-                        'videoCount'     => @$result->userInfo->stats->videoCount,
-                    ],
-                ];
+                return $result->userInfo;
             }
             return false;
         }
@@ -312,7 +261,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 $param = [
                     "type"      => 1,
                     "secUid"    => "",
-                    "id"        => $user->id,
+                    "id"        => $user->user->id,
                     "count"     => 30,
                     "minCursor" => "0",
                     "maxCursor" => $maxCursor,
