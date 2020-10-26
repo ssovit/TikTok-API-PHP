@@ -118,5 +118,17 @@ if (!\class_exists('\Sovit\TikTok\Helper')) {
             $len = strpos($string, $end, $ini) - $ini;
             return substr($string, $ini, $len);
         }
+        public static function makeId()
+        {
+            $characters = '0123456789';
+            $randomString = '';
+            $n = 16;
+            for ($i = 0; $i < $n; $i++) {
+                $index = rand(0, strlen($characters) - 1);
+                $randomString .= $characters[$index];
+            }
+
+            return "68" . $randomString;
+        }
     }
 }

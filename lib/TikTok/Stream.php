@@ -11,9 +11,12 @@ if (!\class_exists('\Sovit\TikTok\Stream')) {
         protected $headers = [];
 
         protected $headers_sent = false;
+        protected $tt_webid_v2 = null;
 
-        public function __construct()
+        public function __construct($config = [])
         {
+            $this->config = array_merge(['cookie_file' => sys_get_temp_dir() . 'tiktok.txt', 'user-agent' => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"], $config);
+            $this->tt_webid_v2 = Helper::makeId();
         }
 
         public function bodyCallback($ch, $data)
@@ -54,13 +57,14 @@ if (!\class_exists('\Sovit\TikTok\Stream')) {
             $ch = curl_init();
 
             $headers   = [];
-            $headers[] = 'Referer: https://www.tiktok.com/foryou?lang=en';
-
+            $headers[] = 'Referer: https://www.tiktok.com/';
             if (isset($_SERVER['HTTP_RANGE'])) {
                 $headers[] = 'Range: ' . $_SERVER['HTTP_RANGE'];
             }
             curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
+            curl_setopt($ch, CURLOPT_COOKIE, 'tt_webid_v2=' . $this->tt_webid_v2 . ';tt_webid=' . $this->tt_webid_v2);
 
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
@@ -74,7 +78,10 @@ if (!\class_exists('\Sovit\TikTok\Stream')) {
 
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0);
             curl_setopt($ch, CURLOPT_HEADER, 0);
-
+            curl_setopt($ch, CURLOPT_USERAGENT, $this->config['user-agent']);
+            curl_setopt($ch, CURLOPT_REFERER, "https://www.tiktok.com/");
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $this->config['cookie_file']);
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $this->config['cookie_file']);
             curl_setopt($ch, CURLOPT_HEADERFUNCTION, [$this, 'headerCallback']);
 
             curl_setopt($ch, CURLOPT_WRITEFUNCTION, [$this, 'bodyCallback']);
