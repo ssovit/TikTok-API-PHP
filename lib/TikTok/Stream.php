@@ -15,7 +15,7 @@ if (!\class_exists('\Sovit\TikTok\Stream')) {
 
         public function __construct($config = [])
         {
-            $this->config = array_merge(['cookie_file' => sys_get_temp_dir() . 'tiktok.txt', 'user-agent' => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"], $config);
+            $this->config = array_merge(['cookie_file' => sys_get_temp_dir().DIRECTORY_SEPARATOR . 'tiktok.txt', 'user-agent' => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"], $config);
         }
 
         public function bodyCallback($ch, $data)

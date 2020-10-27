@@ -5,10 +5,10 @@ namespace Sovit\TikTok;
 if (!\class_exists('\Sovit\TikTok\Download')) {
     class Download
     {
-        protected $buffer_size = 256 * 1024;
+        protected $buffer_size = 1000000;
         public function __construct($config = [])
         {
-            $this->config = array_merge(['cookie_file' => sys_get_temp_dir() . 'tiktok.txt', 'user-agent' => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"], $config);
+            $this->config = array_merge(['cookie_file' => sys_get_temp_dir().DIRECTORY_SEPARATOR . 'tiktok.txt', 'user-agent' => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"], $config);
             $this->tt_webid_v2 = Helper::makeId();
         }
         public function file_size($url)
@@ -35,41 +35,40 @@ if (!\class_exists('\Sovit\TikTok\Download')) {
         public function url($url, $file_name = "tiktok-video", $ext = "mp4")
         {
             $file_size = $this->file_size($url);
-            ob_start();
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename="' . $file_name . '.' . $ext . '"');
             header("Content-Transfer-Encoding: binary");
             header('Expires: 0');
             header('Pragma: public');
-            if (isset($_SERVER['HTTP_REQUEST_USER_AGENT']) && strpos($_SERVER['HTTP_REQUEST_USER_AGENT'], 'MSIE') !== false) {
-                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-                header('Pragma: public');
-            }
+
             if ($file_size > 100) {
                 header('Content-Length: ' . $file_size);
             }
             header('Connection: Close');
             ob_clean();
             flush();
+            if (function_exists('apache_setenv')) {
+                @apache_setenv('no-gzip', 1);
+            }
+            @ini_set('zlib.output_compression', false);
+            @ini_set('implicit_flush', true);
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-            curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_BUFFERSIZE, $this->buffer_size);
+
+            curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_USERAGENT, $this->config['user-agent']);
             curl_setopt($ch, CURLOPT_REFERER, "https://www.tiktok.com/");
             curl_setopt($ch, CURLOPT_COOKIEFILE, $this->config['cookie_file']);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $this->config['cookie_file']);
-            $ret = curl_exec($ch);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($ch);
             curl_close($ch);
-            echo $ret;
-            exit();
+            echo $output;
+            exit;
         }
     }
 }

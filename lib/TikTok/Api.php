@@ -23,7 +23,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
         ];
         public function __construct($config = array(), $cacheEngine = false)
         {
-            $this->_config = array_merge(['cookie_file' => sys_get_temp_dir() . 'tiktok.txt'], $this->defaults, $config);
+            $this->_config = array_merge(['cookie_file' => sys_get_temp_dir().DIRECTORY_SEPARATOR . 'tiktok.txt'], $this->defaults, $config);
             if ($cacheEngine) {
                 $this->cacheEnabled = true;
                 $this->cache        = $cacheEngine;
@@ -64,6 +64,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             if (empty($challenge)) {
                 throw new \Exception("Invalid Challenge");
             }
+            $challenge=urlencode( $challenge);
             $result = $this->remote_call(self::API_BASE . "share/tag/{$challenge}", 'challenge-' . $challenge);
             if (isset($result->challengeInfo)) {
                 return $result->challengeInfo;
@@ -205,6 +206,9 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                     }
                 }
             }
+            // If the video doesn't have id to resolve the non-watermarked video, there is no easy way to do
+            // you can use my premium service at https://rapidapi.com/ssovit/api/tiktok-no-watermark1 for very low price
+            // Don't ask to share the script as it's something I want to keep it for myself. You can use my cheap plans at RapidAPI for your apps.
             return false;
         }
 
@@ -244,6 +248,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             if (empty($username)) {
                 throw new \Exception("Invalid Username");
             }
+            $username=urlencode( $username);
             $result = $this->remote_call(self::API_BASE . "share/user/@{$username}", 'user-' . $username);
             if (isset($result->userInfo)) {
                 return $result->userInfo;
