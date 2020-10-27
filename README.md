@@ -94,7 +94,7 @@ It's highly recommended that you use proxy to prevent your IP from getting banne
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
-*TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. You can use the API service at https://rapidapi.com/wppressapi-wppressapi-default/api/tiktok-no-watermark1 which provides cheap and reliable API service to fetch video ID for newer videos.*
+*TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. You can use the API service at https://rapidapi.com/ssovit/api/tiktok-no-watermark1 which provides cheap and reliable API service to fetch video ID for newer videos.*
 
 # Want to improve this? Want to contribute?
 Don't hesitate to create pull requests.
