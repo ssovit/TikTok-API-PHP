@@ -28,35 +28,12 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 $this->cacheEnabled = true;
                 $this->cache        = $cacheEngine;
             }
+            if (file_exists($this->_config['cookie_file'])) {
+                @touch($this->_config['cookie_file']);
+            }
             // if (!file_exists($this->_config['cookie_file'])) {
             //     $this->remote_call("https://www.tiktok.com/foryou?lang=en", 'tiktok-init');
             // }
-            // $browser = \explode("/", $this->_config['user-agent'], 2);
-            // $this->default_params = array(
-            //     'aid' => 1988,
-            //     'app_name' => 'tiktok_web',
-            //     'device_platform' => 'web',
-            //     'referer' => 'https://www.tiktok.com/',
-            //     'user_agent' => $this->_config['user-agent'],
-            //     'cookie_enabled' => true,
-            //     'screen_width' => 1366,
-            //     'screen_height' => 768,
-            //     'browser_language' => 'en-US',
-            //     'browser_platform' => 'Win32',
-            //     'browser_name' => $browser[0],
-            //     'browser_version' => $browser[1],
-            //     'browser_online' => true,
-            //     'ac' => '4g',
-            //     'timezone_name' => 'EST',
-            //     'appId' => 1233,
-            //     'appType' => 'm',
-            //     'isAndroid' => false,
-            //     'isMobile' => false,
-            //     'isIOS' => false,
-            //     'OS' => 'windows',
-            //     'did' => random(100,999999999),
-
-            // );
         }
 
         public function getChallenge($challenge = "")
@@ -188,6 +165,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         CURLOPT_SSL_VERIFYPEER => false,
                         CURLOPT_TIMEOUT        => 30,
                         CURLOPT_MAXREDIRS      => 10,
+                        CURLOPT_COOKIEJAR      => $this->_config['cookie_file'],
+                        CURLOPT_COOKIEFILE=>$this->_config['cookie_file'],
                     ];
                     curl_setopt_array($ch, $options);
                     if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
@@ -352,10 +331,9 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                     'Referer: https://www.tiktok.com/foryou?lang=en',
                 ],
                 CURLOPT_COOKIEJAR      => $this->_config['cookie_file'],
+                CURLOPT_COOKIEFILE=>$this->_config['cookie_file'],
             ];
-            if (file_exists($this->_config['cookie_file'])) {
-                curl_setopt($ch, CURLOPT_COOKIEFILE, $this->_config['cookie_file']);
-            }
+            
             curl_setopt_array($ch, $options);
             if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
                 curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
