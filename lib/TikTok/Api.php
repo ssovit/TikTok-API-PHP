@@ -228,10 +228,14 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid Username");
             }
             $username=urlencode( $username);
-            $result = $this->remote_call(self::API_BASE . "share/user/@{$username}", 'user-' . $username);
-            if (isset($result->userInfo)) {
-                return $result->userInfo;
+            $result = $this->remote_call("https://www.tiktok.com/@{$username}", 'user-' . $username,false);
+            if(preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/',$result,$matches)){
+                $result=json_decode($matches[2],false);
+                if(isset($result->props->pageProps->userInfo)){
+                    return $result->props->pageProps->userInfo;
+                }
             }
+           
             return false;
         }
 
