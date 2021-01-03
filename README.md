@@ -47,7 +47,7 @@ $api=new \Sovit\TikTok\Api(array(
 	), $cache_engine=false);
 ```
 
-#Cache Engine
+# Cache Engine
 You can build your own engine that will store and fetch cache from your local storage to prevent frequent requests to TikTok server. This can help being banned from TikTok server for too frequent requests.
 
 Cache engine should have callable `get` and `set` methods that the API class uses
@@ -78,6 +78,8 @@ Note: TikTok videos will not play directly when used in HTML video player as the
 To use proxy, provide `proxy-host`, `proxy-port`, `proxy-username`, `proxy-password`
 It's highly recommended that you use proxy to prevent your IP from getting banned.
 
+It's highly recommended to use `Rotating` Proxy service if you are making lots of requests in short interval of time. [Webshare.io Proxy Service](https://www.webshare.io/?referral_code=kv04mj5v4ubw) is good. *It's my referral link and I would get a bit from it*
+
 # Available methods
 - `getTrendingFeed` - Get trending feed `getUser($maxCursor)`
 - `getUser` - Get profile data for TikTok User `getUser($username)`
@@ -94,7 +96,10 @@ It's highly recommended that you use proxy to prevent your IP from getting banne
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
-*TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. You can use the API service at https://rapidapi.com/ssovit/api/tiktok-no-watermark1 which provides cheap and reliable API service to fetch video ID for newer videos.*
+TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. You can use the API service at [RapidAPI](https://rapidapi.com/ssovit/api/tiktok-no-watermark1) which provides cheap and reliable API service to fetch non-watermarked url for newer videos.
+
+# Empty results?
+Use proxy. You are making too many API requests in short interval of time.
 
 # Want to improve this? Want to contribute?
 Don't hesitate to create pull requests.
