@@ -23,7 +23,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
         ];
         public function __construct($config = array(), $cacheEngine = false)
         {
-            $this->_config = array_merge(['cookie_file' => sys_get_temp_dir().DIRECTORY_SEPARATOR . 'tiktok.txt'], $this->defaults, $config);
+            $this->_config = array_merge(['cookie_file' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'tiktok.txt'], $this->defaults, $config);
             if ($cacheEngine) {
                 $this->cacheEnabled = true;
                 $this->cache        = $cacheEngine;
@@ -41,7 +41,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             if (empty($challenge)) {
                 throw new \Exception("Invalid Challenge");
             }
-            $challenge=urlencode( $challenge);
+            $challenge = urlencode($challenge);
             $result = $this->remote_call(self::API_BASE . "share/tag/{$challenge}", 'challenge-' . $challenge);
             if (isset($result->challengeInfo)) {
                 return $result->challengeInfo;
@@ -141,8 +141,15 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             $data = $this->getVideoByUrl($url);
             if ($data) {
                 $video = $data->items[0];
+                if ($video->video->id != "awesome") {
+                    $video_id = $video->video->id;
+                    return (object) [
+                        "id" => $video_id,
+                        "url"                 => Helper::finalUrl("https://api-h2.tiktokv.com/aweme/v1/play/?video_id={$video_id}&vr_type=0&is_play_url=1&source=PackSourceEnum_FEED&media_type=4&ratio=default&improve_bitrate=1"),
+                    ];
+                }
                 if ($video->createTime < 1595894400) {
-                    // only attempt to get video ID before 28th July 2020
+                    // only attempt to get video ID before 28th July 2020 using video id in video file meta comment
                     $ch = curl_init();
 
                     $options = [
@@ -166,7 +173,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         CURLOPT_TIMEOUT        => 30,
                         CURLOPT_MAXREDIRS      => 10,
                         CURLOPT_COOKIEJAR      => $this->_config['cookie_file'],
-                        CURLOPT_COOKIEFILE=>$this->_config['cookie_file'],
+                        CURLOPT_COOKIEFILE => $this->_config['cookie_file'],
                     ];
                     curl_setopt_array($ch, $options);
                     if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
@@ -227,15 +234,15 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             if (empty($username)) {
                 throw new \Exception("Invalid Username");
             }
-            $username=urlencode( $username);
-            $result = $this->remote_call("https://www.tiktok.com/@{$username}", 'user-' . $username,false);
-            if(preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/',$result,$matches)){
-                $result=json_decode($matches[2],false);
-                if(isset($result->props->pageProps->userInfo)){
+            $username = urlencode($username);
+            $result = $this->remote_call("https://www.tiktok.com/@{$username}", 'user-' . $username, false);
+            if (preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/', $result, $matches)) {
+                $result = json_decode($matches[2], false);
+                if (isset($result->props->pageProps->userInfo)) {
                     return $result->props->pageProps->userInfo;
                 }
             }
-           
+
             return false;
         }
 
@@ -335,9 +342,9 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                     'Referer: https://www.tiktok.com/foryou?lang=en',
                 ],
                 CURLOPT_COOKIEJAR      => $this->_config['cookie_file'],
-                CURLOPT_COOKIEFILE=>$this->_config['cookie_file'],
+                CURLOPT_COOKIEFILE => $this->_config['cookie_file'],
             ];
-            
+
             curl_setopt_array($ch, $options);
             if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
                 curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);

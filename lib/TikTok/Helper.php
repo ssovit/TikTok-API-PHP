@@ -55,6 +55,7 @@ if (!\class_exists('\Sovit\TikTok\Helper')) {
                     "desc"              => @$item->itemInfos->text,
                     "createTime"        => @$item->itemInfos->createTime,
                     "video"             => (object) [
+                        "id"            =>"awesome",
                         "height"       => @$item->itemInfos->video->videoMeta->height,
                         "width"        => @$item->itemInfos->video->videoMeta->width,
                         "duration"     => @$item->itemInfos->video->videoMeta->duration,
