@@ -11,6 +11,11 @@ if (!\class_exists('\Sovit\TikTok\Download')) {
             $this->config = array_merge(['cookie_file' => sys_get_temp_dir().DIRECTORY_SEPARATOR . 'tiktok.txt', 'user-agent' => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"], $config);
             $this->tt_webid_v2 = Helper::makeId();
         }
+
+        /**
+         * @param string$url
+         * @return int
+         */
         public function file_size($url)
         {
             $ch = curl_init($url);
@@ -32,8 +37,19 @@ if (!\class_exists('\Sovit\TikTok\Download')) {
             return (int) $size;
         }
 
+        /**
+         * @param $url
+         * @param string $file_name
+         * @param string $ext
+         * @param false $isPersist
+         * @return string|void
+         */
         public function url($url, $file_name = "tiktok-video", $ext = "mp4")
         {
+            if (!Helper::isTikTokUrl($url)) {
+               throw new ParameterException('given url is not a supported one');
+            }
+
             $file_size = $this->file_size($url);
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -46,13 +62,34 @@ if (!\class_exists('\Sovit\TikTok\Download')) {
                 header('Content-Length: ' . $file_size);
             }
             header('Connection: Close');
-            ob_clean();
+            if(ob_get_length()) {
+                ob_clean();
+            }
             flush();
             if (function_exists('apache_setenv')) {
                 @apache_setenv('no-gzip', 1);
             }
             @ini_set('zlib.output_compression', false);
             @ini_set('implicit_flush', true);
+            echo $this->get_remote_content($url);
+            exit;
+        }
+
+        public function fetch_content($url)
+        {
+            if (!Helper::isTikTokUrl($url)) {
+                throw new ParameterException('given url is not a supported one');
+            }
+            return $this->get_remote_content($url);
+        }
+
+
+        /**
+         * @param $url
+         * @return bool|string
+         */
+        private function get_remote_content($url)
+        {
             $ch = curl_init();
 
             curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -67,8 +104,8 @@ if (!\class_exists('\Sovit\TikTok\Download')) {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             $output = curl_exec($ch);
             curl_close($ch);
-            echo $output;
-            exit;
+
+            return $output;
         }
     }
 }

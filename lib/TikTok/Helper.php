@@ -131,5 +131,14 @@ if (!\class_exists('\Sovit\TikTok\Helper')) {
 
             return "68" . $randomString;
         }
+
+        /**
+         * @param $url
+         * @return false|int
+         */
+        public static function isTikTokUrl($url)
+        {
+            return preg_match('/(?:(?:tiktok\.com)|(?:tiktokcdn\.com)|(?:musical\.ly))$/', parse_url($url, PHP_URL_HOST));
+        }
     }
 }
