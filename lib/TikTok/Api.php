@@ -141,13 +141,6 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             $data = $this->getVideoByUrl($url);
             if ($data) {
                 $video = $data->items[0];
-                if ($video->video->id != "awesome") {
-                    $video_id = $video->video->id;
-                    return (object) [
-                        "id" => $video_id,
-                        "url"                 => Helper::finalUrl("https://api-h2.tiktokv.com/aweme/v1/play/?video_id={$video_id}&vr_type=0&is_play_url=1&source=PackSourceEnum_FEED&media_type=4&ratio=default&improve_bitrate=1"),
-                    ];
-                }
                 if ($video->createTime < 1595894400) {
                     // only attempt to get video ID before 28th July 2020 using video id in video file meta comment
                     $ch = curl_init();
