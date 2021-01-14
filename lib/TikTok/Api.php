@@ -239,25 +239,53 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return false;
         }
 
-        public function getUserFeed($username = "", $maxCursor = 0)
+        private function fetchUserFeed($username = "", string $userId = "", $maxCursor = 0)
+        {
+            $param = [
+                "type"      => 1,
+                "secUid"    => "",
+                "id"        => $userId,
+                "count"     => 30,
+                "minCursor" => "0",
+                "maxCursor" => $maxCursor,
+                "shareUid"  => "",
+                "lang"      => "",
+                "verifyFp"  => "",
+            ];
+
+            return $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param), 'user-feed-' . $username . '-' . $maxCursor);
+        }
+
+        public function getUserFeed($username = "", string $userId = "", $maxCursor = 0)
+        {
+            if (empty($username)) {
+                throw new \Exception("Invalid Username");
+            }
+            if (empty($userId)) {
+                throw new \Exception("Invalid userId");
+            }
+            $result = $this->fetchUserFeed($username, $userId, $maxCursor);
+            if (isset($result->body->itemListData)) {
+                return (object) [
+                    "statusCode" => 0,
+                    "items"      => Helper::parseData($result->body->itemListData),
+                    "hasMore"    => @$result->body->hasMore,
+                    "minCursor"  => @$result->body->minCursor,
+                    "maxCursor"  => @$result->body->maxCursor,
+                ];
+            }
+
+            return false;
+        }
+
+        public function getUserAndFeed($username = "", $maxCursor = 0)
         {
             if (empty($username)) {
                 throw new \Exception("Invalid Username");
             }
             $user = $this->getUser($username);
             if ($user) {
-                $param = [
-                    "type"      => 1,
-                    "secUid"    => "",
-                    "id"        => $user->user->id,
-                    "count"     => 30,
-                    "minCursor" => "0",
-                    "maxCursor" => $maxCursor,
-                    "shareUid"  => "",
-                    "lang"      => "",
-                    "verifyFp"  => "",
-                ];
-                $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param), 'user-feed-' . $username . '-' . $maxCursor);
+                $result = $this->fetchUserFeed($username, $user->user->id, $maxCursor);
                 if (isset($result->body->itemListData)) {
                     return (object) [
                         "statusCode" => 0,
@@ -272,6 +300,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                     ];
                 }
             }
+
             return false;
         }
 
