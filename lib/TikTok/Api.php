@@ -300,7 +300,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                             'type'   => 'video',
                             'detail' => $url,
                         ],
-                        "items"      => [$jsonData->props->pageProps->itemInfo->itemStruct],
+                        "items"      => property_exists($jsonData->props->pageProps->itemInfo, 'itemStruct') ? [$jsonData->props->pageProps->itemInfo->itemStruct] : [],
                         "hasMore"    => false,
                         "minCursor"  => '0',
                         "maxCursor"  => ' 0',
