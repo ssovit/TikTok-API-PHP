@@ -293,7 +293,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             $result = Helper::string_between($result, '{"props":{"initialProps":{', "</script>");
             if (!empty($result)) {
                 $jsonData = json_decode('{"props":{"initialProps":{' . $result);
-                if (isset($jsonData->props->pageProps->itemInfo)) {
+                if (isset($jsonData->props->pageProps->itemInfo->itemStruct)) {
                     return (object) [
                         'statusCode' => 0,
                         'info'       => (object) [
