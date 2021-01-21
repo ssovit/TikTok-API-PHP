@@ -96,7 +96,8 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
-TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. You can use the API service at [RapidAPI](https://rapidapi.com/ssovit/api/tiktok-no-watermark1) which provides cheap and reliable API service to fetch non-watermarked url for newer videos.
+# Non-watermarked video url for newer videos
+TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. You can contact me via contact details on my profile to purchase a copy of my script that works with newer videos.
 
 # Empty results?
 Use proxy. You are making too many API requests in short interval of time.

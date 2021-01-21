@@ -1,5 +1,4 @@
 <?php
-error_reporting(E_ALL);
 header("Content-Type: application/json");
 include __DIR__ . "/../vendor/autoload.php";
 $api = new \Sovit\TikTok\Api();
