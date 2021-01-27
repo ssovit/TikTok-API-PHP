@@ -20,6 +20,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             "proxy-username" => false,
             "proxy-password" => false,
             "cache-timeout"  => 3600, // in seconds
+            "nwm_endpoint"   => false
         ];
         public function __construct($config = array(), $cacheEngine = false)
         {
@@ -187,6 +188,13 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                             "url"                 => Helper::finalUrl("https://api-h2.tiktokv.com/aweme/v1/play/?video_id={$video_id}&vr_type=0&is_play_url=1&source=PackSourceEnum_FEED&media_type=4&ratio=default&improve_bitrate=1"),
                         ];
                     }
+                }
+                if($this->_config['nwm_endpoint']!=false){
+                    $result = $this->remote_call($this->_config['nwm_endpoint']."/nwm/".$video->id, 'aweme-'.$video->id);
+                    if($result){
+                        return $result; 
+                    }
+
                 }
             }
 

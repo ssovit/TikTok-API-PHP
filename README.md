@@ -43,9 +43,13 @@ $api=new \Sovit\TikTok\Api(array(
 	"proxy-username" => false,
 	"proxy-password" => false,
 	"cache-timeout"  => 3600 // 1 hours cache timeout
-	"cookie_file"  => sys_get_temp_dir() . 'tiktok.txt' // cookie file, necessary for trending feed
+	"cookie_file"  => sys_get_temp_dir() . 'tiktok.txt', // cookie file, necessary for trending feed
+	"nwm_endpoint" => "https://my-api.example.com" // private api endpoint
 	), $cache_engine=false);
 ```
+
+# Private API server
+Private API server source code is available for purchase or rent. Private API server would let you acquire video urls for non-watermarked videos. [Contact me for pricing](https://t.me/ssovit)
 
 # Cache Engine
 You can build your own engine that will store and fetch cache from your local storage to prevent frequent requests to TikTok server. This can help being banned from TikTok server for too frequent requests.
