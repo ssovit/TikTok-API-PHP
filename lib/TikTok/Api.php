@@ -20,6 +20,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             "proxy-username" => false,
             "proxy-password" => false,
             "cache-timeout"  => 3600, // in seconds
+            "nwm_endpoint"   => false
         ];
         public function __construct(array $config = [], ICacheEngine $cacheEngine = null)
         {
@@ -135,12 +136,16 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
 
         public function getNoWatermark($url = false)
         {
+            // This is old way to get non-watermarked video url for videos posted before August 2020. 
+            // To obtain non-watermaked video url for newer videos, there is no easy way to so.
+            // Contact me via my profile contact details to purchase a copy of my script that works with newer videos.
             if (!preg_match("/https?:\/\/([^\.]+)?\.tiktok\.com/", $url)) {
                 throw new \Exception("Invalid VIDEO URL");
             }
             $data = $this->getVideoByUrl($url);
             if ($data) {
                 $video = $data->items[0];
+                
                 if ($video->createTime < 1595894400) {
                     // only attempt to get video ID before 28th July 2020 using video id in video file meta comment
                     $ch = curl_init();
@@ -184,10 +189,15 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         ];
                     }
                 }
+                if($this->_config['nwm_endpoint']!=false){
+                    $result = $this->remote_call($this->_config['nwm_endpoint']."/nwm/".$video->id, 'aweme-'.$video->id);
+                    if($result){
+                        return $result; 
+                    }
+
+                }
             }
-            // If the video doesn't have id to resolve the non-watermarked video, there is no easy way to do
-            // you can use my premium service at https://rapidapi.com/ssovit/api/tiktok-no-watermark1 for very low price
-            // Don't ask to share the script as it's something I want to keep it for myself. You can use my cheap plans at RapidAPI for your apps.
+            
             return false;
         }
 
@@ -241,6 +251,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                     }
                 }
             }
+            
             return false;
         }
 
