@@ -20,9 +20,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             "proxy-username" => false,
             "proxy-password" => false,
             "cache-timeout"  => 3600, // in seconds
-            "nwm_endpoint"   => false
         ];
-        public function __construct($config = array(), $cacheEngine = false)
+        public function __construct(array $config = [], ICacheEngine $cacheEngine = null)
         {
             $this->_config = array_merge(['cookie_file' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'tiktok.txt'], $this->defaults, $config);
             if ($cacheEngine) {
@@ -136,16 +135,12 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
 
         public function getNoWatermark($url = false)
         {
-            // This is old way to get non-watermarked video url for videos posted before August 2020. 
-            // To obtain non-watermaked video url for newer videos, there is no easy way to so.
-            // Contact me via my profile contact details to purchase a copy of my script that works with newer videos.
             if (!preg_match("/https?:\/\/([^\.]+)?\.tiktok\.com/", $url)) {
                 throw new \Exception("Invalid VIDEO URL");
             }
             $data = $this->getVideoByUrl($url);
             if ($data) {
                 $video = $data->items[0];
-
                 if ($video->createTime < 1595894400) {
                     // only attempt to get video ID before 28th July 2020 using video id in video file meta comment
                     $ch = curl_init();
@@ -189,15 +184,10 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         ];
                     }
                 }
-                if($this->_config['nwm_endpoint']!=false){
-                    $result = $this->remote_call($this->_config['nwm_endpoint']."/nwm/".$video->id, 'aweme-'.$video->id);
-                    if($result){
-                        return $result; 
-                    }
-
-                }
             }
-
+            // If the video doesn't have id to resolve the non-watermarked video, there is no easy way to do
+            // you can use my premium service at https://rapidapi.com/ssovit/api/tiktok-no-watermark1 for very low price
+            // Don't ask to share the script as it's something I want to keep it for myself. You can use my cheap plans at RapidAPI for your apps.
             return false;
         }
 
@@ -238,14 +228,19 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid Username");
             }
             $username = urlencode($username);
-            $result = $this->remote_call("https://www.tiktok.com/@{$username}", 'user-' . $username, false);
-            if (preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/', $result, $matches)) {
-                $result = json_decode($matches[2], false);
-                if (isset($result->props->pageProps->userInfo)) {
-                    return $result->props->pageProps->userInfo;
+
+            $result = $this->remote_call(self::API_BASE . "share/user/@{$username}", 'user-' . $username . '-json');
+            if (isset($result->userInfo->user)) {
+                return $result->userInfo;
+            } else {
+                $result = $this->remote_call("https://www.tiktok.com/@{$username}", 'user-' . $username, false);
+                if (preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/', $result, $matches)) {
+                    $result = json_decode($matches[2], false);
+                    if (isset($result->props->pageProps->userInfo)) {
+                        return $result->props->pageProps->userInfo;
+                    }
                 }
             }
-
             return false;
         }
 
@@ -256,31 +251,43 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $user = $this->getUser($username);
             if ($user) {
-                $param = [
-                    "type"      => 1,
-                    "secUid"    => "",
-                    "id"        => $user->user->id,
-                    "count"     => 30,
-                    "minCursor" => "0",
-                    "maxCursor" => $maxCursor,
-                    "shareUid"  => "",
-                    "lang"      => "",
-                    "verifyFp"  => "",
-                ];
-                $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param), 'user-feed-' . $username . '-' . $maxCursor);
-                if (isset($result->body->itemListData)) {
-                    return (object) [
-                        "statusCode" => 0,
-                        "info"       => (object) [
-                            'type'   => 'user',
-                            'detail' => $user,
-                        ],
-                        "items"      => Helper::parseData($result->body->itemListData),
-                        "hasMore"    => @$result->body->hasMore,
-                        "minCursor"  => @$result->body->minCursor,
-                        "maxCursor"  => @$result->body->maxCursor,
-                    ];
+                if ($feed = $this->getUserFeedByUserId($user->user->id, $maxCursor)) {
+                    $feed->info->detail = $user;
+                    return $feed;
                 }
+            }
+            return false;
+        }
+
+        public function getUserFeedByUserId(int $userID, int $maxCursor = 0, int $minCursor = 0, int $items = 30)
+        {
+            $param = [
+                'type'      => 1,
+                'secUid'    => '',
+                'id'        => $userID,
+                'count'     => $items,
+                'minCursor' => $minCursor,
+                'maxCursor' => $maxCursor,
+                'shareUid'  => '',
+                'lang'      => '',
+                'verifyFp'  => '',
+            ];
+            $result = $this->remote_call(
+                self::API_BASE . 'video/feed?' . http_build_query($param),
+                'user-feed-' . $userID . '-' . $items. '-' . $maxCursor. '-' . $minCursor
+            );
+            if (isset($result->body->itemListData)) {
+                return (object) [
+                    'statusCode' => $result->statusCode,
+                    'info'       => (object) [
+                        'type'   => 'user',
+                        'detail' => false,
+                    ],
+                    'items'      => Helper::parseData($result->body->itemListData),
+                    'hasMore'    => @$result->body->hasMore,
+                    'minCursor'  => @$result->body->minCursor,
+                    'maxCursor'  => @$result->body->maxCursor,
+                ];
             }
             return false;
         }
