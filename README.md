@@ -45,7 +45,7 @@ $api=new \Sovit\TikTok\Api(array(
 	"cache-timeout"		=> 3600 // 1 hours cache timeout
 	"cookie_file"		=> sys_get_temp_dir() . 'tiktok.txt', // cookie file path
 	"nwm_endpoint"		=> "https://my-api.example.com" // private api endpoint
-	"api_key"			=>"API_KEY" // see below on how to get API key
+	"api_key"		=>"API_KEY" // see below on how to get API key
 	), $cache_engine=false);
 ```
 
