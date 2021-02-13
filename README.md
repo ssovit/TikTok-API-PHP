@@ -37,19 +37,17 @@ $noWatermark=$api->getNoWatermark("https://www.tiktok.com/@zachking/video/682930
 # Available Options
 ```php
 $api=new \Sovit\TikTok\Api(array(
-	"user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
-	"proxy-host"     => false,
-	"proxy-port"     => false,
-	"proxy-username" => false,
-	"proxy-password" => false,
-	"cache-timeout"  => 3600 // 1 hours cache timeout
-	"cookie_file"  => sys_get_temp_dir() . 'tiktok.txt', // cookie file, necessary for trending feed
-	"nwm_endpoint" => "https://my-api.example.com" // private api endpoint
+	"user-agent"		=> 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36', // Valid desktop browser HTTP User Agent
+	"proxy-host"		=> false,
+	"proxy-port"		=> false,
+	"proxy-username"	=> false,
+	"proxy-password"	=> false,
+	"cache-timeout"		=> 3600 // 1 hours cache timeout
+	"cookie_file"		=> sys_get_temp_dir() . 'tiktok.txt', // cookie file path
+	"nwm_endpoint"		=> "https://my-api.example.com" // private api endpoint
+	"api_key"			=>"API_KEY" // see below on how to get API key
 	), $cache_engine=false);
 ```
-
-# Private API server
-Private API server source code is available for purchase or rent. Private API server would let you acquire video urls for non-watermarked videos. [Contact me for pricing](https://t.me/ssovit)
 
 # Cache Engine
 You can build your own engine that will store and fetch cache from your local storage to prevent frequent requests to TikTok server. This can help being banned from TikTok server for too frequent requests.
@@ -96,17 +94,25 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 - `getMusicFeed` - Get music feed `getMusicFeed($music_id,$maxCursor)`
 - `getVideoByID` - Get video by ID `getVideoByID($video_id)`
 - `getVideoByUrl` - Get video by URL `getVideoByUrl($video_url)`
-- `getNoWatermark` - Get no watermark for video by URL `getNoWatermark($video_url)` *(only works for videos before 28th July 2020)*
+- `getNoWatermark` - Get no watermark for video by URL `getNoWatermark($video_url)` *(only works for videos before 28th July 2020). Private API server availbale for rent for newer videos*
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
 # Non-watermarked video url for newer videos
-TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. You can contact me via contact details on my profile to purchase a copy of my script that works with newer videos.
+TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. Check below for subscription plans for non watermarked video API.
+
+## Pirvate API server subscription pricing
+- 20 USD/month (2k requests per day)
+- 50 USD/month (5k requests per day)
+- 100 USD/month (12k requests per day)
+- Contact for more details on custom plans.
+
+Connect with me for more details at https://t.me/ssovit or sovit.tamrakar@gmail.com
 
 # Empty results?
-Use proxy. You are making too many API requests in short interval of time.
+Use proxy. You are making too many API requests in short interval of time. Rotating proxy is recommended.
 
-# Want to improve this? Want to contribute?
+# Want to improve this library? Want to contribute?
 Don't hesitate to create pull requests.
 
 # Disclaimer
