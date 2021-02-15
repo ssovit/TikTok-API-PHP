@@ -45,7 +45,7 @@ $api=new \Sovit\TikTok\Api(array(
 	"cache-timeout"		=> 3600 // 1 hours cache timeout
 	"cookie_file"		=> sys_get_temp_dir() . 'tiktok.txt', // cookie file path
 	"nwm_endpoint"		=> "https://my-api.example.com" // private api endpoint
-	"api_key"		=>"API_KEY" // see below on how to get API key
+	"api_key"		=> "API_KEY" // see below on how to get API key
 	), $cache_engine=false);
 ```
 
@@ -102,10 +102,12 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. Check below for subscription plans for non watermarked video API.
 
 ## Pirvate API server subscription pricing
-- 20 USD/month (2k requests per day)
-- 50 USD/month (5k requests per day)
-- 100 USD/month (12k requests per day)
-- Contact for more details on custom plans.
+| Package | Cost(per month) | Quota(per day) | Quota (per month) |
+| ------- | :---------------: | --------------: | -----------------: |
+| **Basic** | 20 USD | 2,000 | ~60,000|
+| **Pro** *(popular)* | 50 USD | 5,000 | ~150,000 |
+| **Mega** | 100 USD | 12,000 | ~360,000 |
+| **Ultra** | custom pricing | ? | ? |
 
 Connect with me for more details at https://t.me/ssovit or sovit.tamrakar@gmail.com
 
