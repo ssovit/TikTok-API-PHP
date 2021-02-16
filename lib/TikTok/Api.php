@@ -20,7 +20,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             "proxy-username" => false,
             "proxy-password" => false,
             "cache-timeout"  => 3600, // in seconds
-            "nwm_endpoint"   => false
+            "nwm_endpoint"   => false,
+            "api_key"   => false
         ];
         public function __construct(array $config = [], ICacheEngine $cacheEngine = null)
         {
@@ -178,7 +179,6 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
                     }
                     $data     = curl_exec($ch);
-                    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                     curl_close($ch);
                     $parts = explode("vid:", $data);
                     if (count($parts) > 1) {
@@ -189,15 +189,14 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         ];
                     }
                 }
-                if($this->_config['nwm_endpoint']!=false){
-                    $result = $this->remote_call($this->_config['nwm_endpoint']."/nwm/".$video->id, 'aweme-'.$video->id);
+                if($this->_config['nwm_endpoint']!=false && $this->_config['api_key']!=false){
+                    $result = $this->remote_call($this->_config['nwm_endpoint']."/nwm/".$video->id."?key=".$this->_config['api_key'], 'aweme-'.$video->id);
                     if($result){
                         return $result; 
                     }
 
                 }
             }
-            
             return false;
         }
 
