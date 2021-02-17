@@ -98,6 +98,11 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
+# To-Do
+- **Save the Universe**
+- SOCKS proxy support
+- Multiple proxy support (taking turns in round-robin. Act as rotating proxy)
+
 # Non-watermarked video url for newer videos
 TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. Check below for subscription plans for non watermarked video API.
 
@@ -115,7 +120,7 @@ Connect with me for more details at https://t.me/ssovit or sovit.tamrakar@gmail.
 Use proxy. You are making too many API requests in short interval of time. Rotating proxy is recommended.
 
 # Want to improve this library? Want to contribute?
-Don't hesitate to create pull requests.
+Don't hesitate to create pull requests. 
 
 # Disclaimer
 TikTok is always updating their API endpoints but I will try to keep this library whenever possible. I take no responsibility if you or your IP gets banned using this API. It's recommended that you use proxy.
