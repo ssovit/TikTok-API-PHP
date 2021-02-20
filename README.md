@@ -3,8 +3,6 @@
 
 Unofficial TikTok API for PHP
 
-<a href="https://www.buymeacoffee.com/ssovit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
 # Installation via Composer
 `composer require ssovit/tiktok-api`
 
@@ -104,6 +102,9 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 - **Save the Universe**
 - SOCKS proxy support
 - Multiple proxy support (taking turns in round-robin. Act as rotating proxy)
+
+<a href="https://www.buymeacoffee.com/ssovit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
 
 # Non-watermarked video url for newer videos
 TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. Check below for subscription plans for non watermarked video API.
