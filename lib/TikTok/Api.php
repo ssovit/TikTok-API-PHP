@@ -92,9 +92,13 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             if (empty($music_id)) {
                 throw new \Exception("Invalid Music ID");
             }
-            $result = $this->remote_call(self::API_BASE . "share/music/original-sound-{$music_id}", 'music-' . $music_id);
-            if (isset($result->musicInfo)) {
-                return $result->musicInfo;
+            $result = $this->remote_call("https://www.tiktok.com/music/original-sound-{$music_id}?lang=en", 'music-' . $music_id, false);
+           // return $result;
+            if (preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/', $result, $matches)) {
+                $result = json_decode($matches[2], false);
+                if (isset($result->props->pageProps->musicInfo)) {
+                    return $result->props->pageProps->musicInfo;
+                }
             }
             return false;
         }
@@ -189,12 +193,11 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         ];
                     }
                 }
-                if($this->_config['nwm_endpoint']!=false && $this->_config['api_key']!=false){
-                    $result = $this->remote_call($this->_config['nwm_endpoint']."/nwm/".$video->id."?key=".$this->_config['api_key'], 'aweme-'.$video->id);
-                    if($result){
-                        return $result; 
+                if ($this->_config['nwm_endpoint'] != false && $this->_config['api_key'] != false) {
+                    $result = $this->remote_call($this->_config['nwm_endpoint'] . "/nwm/" . $video->id . "?key=" . $this->_config['api_key'], 'aweme-' . $video->id);
+                    if ($result) {
+                        return $result;
                     }
-
                 }
             }
             return false;
@@ -237,7 +240,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid Username");
             }
             $username = urlencode($username);
-            $result = $this->remote_call("https://www.tiktok.com/@{$username}", 'user-' . $username, false);
+            $result = $this->remote_call("https://www.tiktok.com/@{$username}?lang=en", 'user-' . $username, false);
             if (preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/', $result, $matches)) {
                 $result = json_decode($matches[2], false);
                 if (isset($result->props->pageProps->userInfo)) {
@@ -364,38 +367,6 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             if ($this->cacheEnabled) {
                 $this->cache->set($cacheKey, $data, $this->_config['cache-timeout']);
-            }
-            return $data;
-        }
-        private function remote_post($url, $body = [], $headers = [], $isJson = true)
-        {
-            $ch      = curl_init();
-            $options = [
-                CURLOPT_URL            => $url,
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => http_build_query($body),
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HEADER         => false,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_USERAGENT      => $this->_config['user-agent'],
-                CURLOPT_ENCODING       => "utf-8",
-                CURLOPT_AUTOREFERER    => true,
-                CURLOPT_CONNECTTIMEOUT => 30,
-                CURLOPT_SSL_VERIFYHOST => false,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_TIMEOUT        => 30,
-                CURLOPT_MAXREDIRS      => 10,
-                CURLOPT_HTTPHEADER     => $headers,
-                CURLOPT_COOKIEJAR      => $this->_config['cookie_file'],
-            ];
-            curl_setopt_array($ch, $options);
-            if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
-                curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-            }
-            $data = curl_exec($ch);
-            curl_close($ch);
-            if ($isJson) {
-                $data = json_decode($data);
             }
             return $data;
         }
