@@ -93,7 +93,6 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid Music ID");
             }
             $result = $this->remote_call("https://www.tiktok.com/music/original-sound-{$music_id}?lang=en", 'music-' . $music_id, false);
-           // return $result;
             if (preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/', $result, $matches)) {
                 $result = json_decode($matches[2], false);
                 if (isset($result->props->pageProps->musicInfo)) {

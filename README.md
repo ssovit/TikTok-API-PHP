@@ -6,6 +6,12 @@ Unofficial TikTok API for PHP
 # Installation via Composer
 `composer require ssovit/tiktok-api`
 
+# Want to support?
+<a href="https://www.buymeacoffee.com/ssovit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+# Looking for Watermark-less video API?
+It's available on monthly subscription. See below for plans and contact details.
+
 # Usage
 Follow examples in `/example` directory
 
@@ -83,7 +89,7 @@ It's highly recommended that you use proxy to prevent your IP from getting banne
 It's highly recommended to use `Rotating` Proxy service if you are making lots of requests in short interval of time. [Webshare.io Proxy Service](https://www.webshare.io/?referral_code=kv04mj5v4ubw) is good. *It's my referral link and I would get a bit from it*
 
 # Available methods
-- `getTrendingFeed` - Get trending feed `getUser($maxCursor)`
+- `getTrendingFeed` - Get trending feed `getTrendingFeed($maxCursor)`
 - `getUser` - Get profile data for TikTok User `getUser($username)`
 - `getUserFeed` - Get user feed by ID `getUserFeed($user_id,$maxCursor)`
 - `getUserFeedByName` - Get user feed by Name `getUserFeedByName($username,$maxCursor)`
@@ -94,7 +100,7 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 - `getMusicFeed` - Get music feed `getMusicFeed($music_id,$maxCursor)`
 - `getVideoByID` - Get video by ID `getVideoByID($video_id)`
 - `getVideoByUrl` - Get video by URL `getVideoByUrl($video_url)`
-- `getNoWatermark` - Get no watermark for video by URL `getNoWatermark($video_url)` *(only works for videos before 28th July 2020). Private API server availbale for rent for newer videos*
+- `getNoWatermark` - Get no watermark for video by URL `getNoWatermark($video_url)` *(only works for videos before 28th July 2020). Private API server availbale on subscription*
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
@@ -102,9 +108,6 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 - **Save the Universe**
 - SOCKS proxy support
 - Multiple proxy support (taking turns in round-robin. Act as rotating proxy)
-
-<a href="https://www.buymeacoffee.com/ssovit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
 
 # Non-watermarked video url for newer videos
 TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. Check below for subscription plans for non watermarked video API.
