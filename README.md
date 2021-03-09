@@ -100,7 +100,7 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 - `getMusicFeed` - Get music feed `getMusicFeed($music_id,$maxCursor)`
 - `getVideoByID` - Get video by ID `getVideoByID($video_id)`
 - `getVideoByUrl` - Get video by URL `getVideoByUrl($video_url)`
-- `getNoWatermark` - Get no watermark for video by URL `getNoWatermark($video_url)` *(only works for videos before 28th July 2020). Private API server availbale on subscription*
+- `getNoWatermark` - Get no watermark for video by URL `getNoWatermark($video_url)` *(only works for videos before 28th July 2020). Private API server availbale on subscription that works for all TikTok posts*
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
@@ -113,7 +113,7 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. Check below for subscription plans for non watermarked video API.
 
 ## Pirvate API server subscription pricing
-| Package | Cost(per month) | Quota(per day) | Quota (per month) |
+| Package | Cost(per month) | Quota(requests per day) | Quota (requests per month) |
 | ------- | :---------------: | --------------: | -----------------: |
 | **Basic** | 20 USD | 2,000 | ~60,000|
 | **Pro** *(popular)* | 50 USD | 5,000 | ~150,000 |
