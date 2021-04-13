@@ -8,6 +8,8 @@ Unofficial TikTok API for PHP
 
 [![Discord](https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg)](https://discord.gg/rSQd2QAXA8)
 
+# Try my Telegram Bot
+[Try my Telegram Bot](http://t.me/ssovitTikTokBot) to get non-watermarked video for any TikTok video
 
 # Want to support?
 <a href="https://www.buymeacoffee.com/ssovit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>

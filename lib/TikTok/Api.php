@@ -3,64 +3,119 @@
 namespace Sovit\TikTok;
 
 if (!\class_exists('\Sovit\TikTok\Api')) {
+    /**
+     * TikTok API Class
+     */
     class Api
     {
+        /**
+         * API Base url
+         * @var string
+         */
         const API_BASE = "https://www.tiktok.com/node/";
 
+        /**
+         * Config
+         *
+         * @var array
+         */
         private $_config = [];
-
-        private $cache = false;
-
+        /**
+         * Cache Engine
+         *
+         * @var object
+         */
+        private $cacheEngine;
+        /**
+         * If Cache is enabled
+         *
+         * @var boolean
+         */
         private $cacheEnabled = false;
-
+        /**
+         * Default config
+         *
+         * @todo change the - to _ on array keys
+         * @todo randomize user-agent/user_agent
+         * @var array
+         */
         private $defaults = [
             "user-agent"     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36',
             "proxy-host"     => false,
             "proxy-port"     => false,
             "proxy-username" => false,
             "proxy-password" => false,
-            "cache-timeout"  => 3600, // in seconds
+            "cache-timeout"  => 3600,
             "nwm_endpoint"   => false,
             "api_key"   => false
         ];
+        /**
+         * Class Constructor
+         *
+         * @param array $config API Config
+         * @param boolean $cacheEngine
+         * @return void
+         */
         public function __construct($config = array(), $cacheEngine = false)
         {
+            /**
+             * Initialize the config array
+             */
             $this->_config = array_merge(['cookie_file' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'tiktok.txt'], $this->defaults, $config);
+            /**
+             * If Cache Engine is enabled
+             */
             if ($cacheEngine) {
                 $this->cacheEnabled = true;
-                $this->cache        = $cacheEngine;
+                $this->cacheEngine        = $cacheEngine;
             }
-            if (file_exists($this->_config['cookie_file'])) {
+            /**
+             * Create blank cookie file if not exists
+             */
+            if (!file_exists($this->_config['cookie_file'])) {
                 @touch($this->_config['cookie_file']);
             }
-            // if (!file_exists($this->_config['cookie_file'])) {
-            //     $this->remote_call("https://www.tiktok.com/foryou?lang=en", 'tiktok-init');
-            // }
         }
-
+        /**
+         * Get Challenge function
+         * Accepts challenge name and returns challenge detail object or false on failure
+         *
+         * @param string $challenge
+         * @return object
+         */
         public function getChallenge($challenge = "")
         {
+            /**
+             * Check if challenge is not empty
+             */
             if (empty($challenge)) {
                 throw new \Exception("Invalid Challenge");
             }
             $cacheKey = 'challenge-' . $challenge;
             if ($this->cacheEnabled) {
-                if ($this->cache->get($cacheKey)) {
-                    return $this->cache->get($cacheKey);
+                if ($this->cacheEngine->get($cacheKey)) {
+                    return $this->cacheEngine->get($cacheKey);
                 }
             }
             $challenge = urlencode($challenge);
             $result = $this->remote_call(self::API_BASE . "share/tag/{$challenge}");
             if (isset($result->challengeInfo)) {
-                $result=$result->challengeInfo;
+                $result = $result->challengeInfo;
                 if ($this->cacheEnabled) {
-                    $this->cache->set($cacheKey, $result, $this->_config['cache-timeout']);
+                    $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                 }
                 return $result;
             }
-            return false;
+            return $this->failure();
         }
-
+        /**
+         * Get Challenge Feed
+         * Accepts challenge name and returns challenge feed object or false on faliure
+         *
+         * @param string $challenge_name
+         * @param integer $maxCursor
+         * @return object
+         */
         public function getChallengeFeed($challenge_name = "", $maxCursor = 0)
         {
             if (empty($challenge_name)) {
@@ -68,8 +123,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $cacheKey = 'challenge-' . $challenge_name . '-' . $maxCursor;
             if ($this->cacheEnabled) {
-                if ($this->cache->get($cacheKey)) {
-                    return $this->cache->get($cacheKey);
+                if ($this->cacheEngine->get($cacheKey)) {
+                    return $this->cacheEngine->get($cacheKey);
                 }
             }
             $challenge = $this->getChallenge($challenge_name);
@@ -99,14 +154,20 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         "maxCursor"  => $maxCursor + 30,
                     ];
                     if ($this->cacheEnabled) {
-                        $this->cache->set($cacheKey, $result, $this->_config['cache-timeout']);
+                        $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                     }
                     return $result;
                 }
             }
-            return false;
+            return $this->failure();
         }
-
+        /**
+         * Get Music detail
+         * Accepts music ID and returns music detail object or false on failure
+         *
+         * @param string $music_id
+         * @return object
+         */
         public function getMusic($music_id = "")
         {
             if (empty($music_id)) {
@@ -114,8 +175,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $cacheKey = 'music-' . $music_id;
             if ($this->cacheEnabled) {
-                if ($this->cache->get($cacheKey)) {
-                    return $this->cache->get($cacheKey);
+                if ($this->cacheEngine->get($cacheKey)) {
+                    return $this->cacheEngine->get($cacheKey);
                 }
             }
             $result = $this->remote_call("https://www.tiktok.com/music/original-sound-{$music_id}?lang=en", false);
@@ -124,14 +185,21 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 if (isset($result->props->pageProps->musicInfo)) {
                     $result = $result->props->pageProps->musicInfo;
                     if ($this->cacheEnabled) {
-                        $this->cache->set($cacheKey, $result, $this->_config['cache-timeout']);
+                        $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                     }
                     return $result;
                 }
             }
-            return false;
+            return $this->failure();
         }
-
+        /**
+         * Get music feed
+         * Accepts music id and returns music feed object or false on failure
+         *
+         * @param string $music_id
+         * @param integer $maxCursor
+         * @return object
+         */
         public function getMusicFeed($music_id = "", $maxCursor = 0)
         {
             if (empty($music_id)) {
@@ -139,8 +207,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $cacheKey = 'music-feed-' . $music_id . '-' . $maxCursor;
             if ($this->cacheEnabled) {
-                if ($this->cache->get($cacheKey)) {
-                    return $this->cache->get($cacheKey);
+                if ($this->cacheEngine->get($cacheKey)) {
+                    return $this->cacheEngine->get($cacheKey);
                 }
             }
             $music = $this->getMusic($music_id);
@@ -170,15 +238,21 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         "maxCursor"  => @$result->body->maxCursor,
                     ];
                     if ($this->cacheEnabled) {
-                        $this->cache->set($cacheKey, $result, $this->_config['cache-timeout']);
+                        $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                     }
                     return $result;
                 }
             }
-            return false;
+            return $this->failure();
         }
-
-        public function getNoWatermark($url = false)
+        /**
+         * Get Non watermarked video
+         * Accepts video post url and returns non-watermarked video object or false on failure
+         *
+         * @param string $url
+         * @return object
+         */
+        public function getNoWatermark($url = "")
         {
             // This is old way to get non-watermarked video url for videos posted before August 2020. 
             // To obtain non-watermaked video url for newer videos, there is no easy way to so.
@@ -233,15 +307,25 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                     }
                 }
                 if ($this->_config['nwm_endpoint'] != false && $this->_config['api_key'] != false) {
+                    /**
+                     * Private endpoint which will require recurring subscription
+                     * See readme for details
+                     */
                     $result = $this->remote_call($this->_config['nwm_endpoint'] . "/nwm/" . $video->id . "?key=" . $this->_config['api_key'], 'aweme-' . $video->id);
                     if ($result) {
                         return $result;
                     }
                 }
             }
-            return false;
+            return $this->failure();
         }
-
+        /**
+         * Trending Video Feed
+         * Accepts $maxCursor offset and returns trending video feed object or false on failure
+         *
+         * @param integer $maxCursor
+         * @return object
+         */
         public function getTrendingFeed($maxCursor = 0)
         {
             $param = [
@@ -257,8 +341,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             ];
             $cacheKey = 'trending-' . $maxCursor;
             if ($this->cacheEnabled) {
-                if ($this->cache->get($cacheKey)) {
-                    return $this->cache->get($cacheKey);
+                if ($this->cacheEngine->get($cacheKey)) {
+                    return $this->cacheEngine->get($cacheKey);
                 }
             }
             $result = $this->remote_call(self::API_BASE . "video/feed?" . http_build_query($param));
@@ -275,13 +359,19 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                     "maxCursor"  => ++$maxCursor,
                 ];
                 if ($this->cacheEnabled) {
-                    $this->cache->set($cacheKey, $result, $this->_config['cache-timeout']);
+                    $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                 }
                 return $result;
             }
-            return false;
+            return $this->failure();
         }
-
+        /**
+         * Get User detail
+         * Accepts tiktok username and returns user detail object or false on failure
+         *
+         * @param string $username
+         * @return object
+         */
         public function getUser($username = "")
         {
             if (empty($username)) {
@@ -289,8 +379,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $cacheKey = 'user-' . $username;
             if ($this->cacheEnabled) {
-                if ($this->cache->get($cacheKey)) {
-                    return $this->cache->get($cacheKey);
+                if ($this->cacheEngine->get($cacheKey)) {
+                    return $this->cacheEngine->get($cacheKey);
                 }
             }
             $username = urlencode($username);
@@ -300,15 +390,21 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 if (isset($result->props->pageProps->userInfo)) {
                     $result = $result->props->pageProps->userInfo;
                     if ($this->cacheEnabled) {
-                        $this->cache->set($cacheKey, $result, $this->_config['cache-timeout']);
+                        $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                     }
                     return $result;
                 }
             }
-
-            return false;
+            return $this->failure();
         }
-
+        /**
+         * Get user feed
+         * Accepts username and $maxCursor pagination offset and returns user video feed object or false on failure
+         *
+         * @param string $username
+         * @param integer $maxCursor
+         * @return object
+         */
         public function getUserFeed($username = "", $maxCursor = 0)
         {
             if (empty($username)) {
@@ -316,8 +412,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $cacheKey = 'user-feed-' . $username . '-' . $maxCursor;
             if ($this->cacheEnabled) {
-                if ($this->cache->get($cacheKey)) {
-                    return $this->cache->get($cacheKey);
+                if ($this->cacheEngine->get($cacheKey)) {
+                    return $this->cacheEngine->get($cacheKey);
                 }
             }
             $user = $this->getUser($username);
@@ -347,14 +443,20 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         "maxCursor"  => @$result->body->maxCursor,
                     ];
                     if ($this->cacheEnabled) {
-                        $this->cache->set($cacheKey, $result, $this->_config['cache-timeout']);
+                        $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                     }
                     return $result;
                 }
             }
-            return false;
+            return $this->failure();
         }
-
+        /**
+         * Get video by video id
+         * Accept video ID and returns video detail object or false on failure
+         *
+         * @param string $video_id
+         * @return void
+         */
         public function getVideoByID($video_id = "")
         {
             if (empty($video_id)) {
@@ -362,13 +464,19 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             return $this->getVideoByUrl('https://m.tiktok.com/v/' . $video_id . '.html');
         }
-
+        /**
+         * Get Video By URL
+         * Accepts tiktok video url and returns video detail object or false on failure
+         *
+         * @param string $url
+         * @return object
+         */
         public function getVideoByUrl($url = "")
         {
             $cacheKey = Helper::normalize($url);
             if ($this->cacheEnabled) {
-                if ($this->cache->get($cacheKey)) {
-                    return $this->cache->get($cacheKey);
+                if ($this->cacheEngine->get($cacheKey)) {
+                    return $this->cacheEngine->get($cacheKey);
                 }
             }
             if (!preg_match("/https?:\/\/([^\.]+)?\.tiktok\.com/", $url)) {
@@ -391,14 +499,22 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                         "maxCursor"  => ' 0',
                     ];
                     if ($this->cacheEnabled) {
-                        $this->cache->set($cacheKey, $result, $this->_config['cache-timeout']);
+                        $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                     }
                     return $result;
                 }
             }
-            return false;
+            return $this->failure();
         }
-
+        /**
+         * Make remote call
+         * Private method that will make remote HTTP requests, parse result as JSON if $isJson is set to true
+         * returns false on failure
+         *
+         * @param string $url
+         * @param boolean $isJson
+         * @return object
+         */
         private function remote_call($url = "", $isJson = true)
         {
             $ch      = curl_init();
@@ -438,6 +554,20 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 $data = json_decode($data);
             }
             return $data;
+        }
+        /**
+         * Failure
+         * Be a man and accept the failure
+         *
+         * @return void
+         */
+        private function failure()
+        {
+            /**
+             * Try delete old cookie file to invalidate old cookies
+             */
+            @unlink($this->_config['cookie_file']);
+            return false;
         }
     }
 }

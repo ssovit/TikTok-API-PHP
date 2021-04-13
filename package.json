@@ -1,6 +1,6 @@
 {
   "name": "@ssovit/tiktok-api-php",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Unofficial TikTok API for PHP",
   "main": "index.js",
   "directories": {
