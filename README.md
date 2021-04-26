@@ -3,6 +3,9 @@
 
 Unofficial TikTok API for PHP
 
+# X-Gorgon & X-Khronos Calculation Algorithm
+[More Info Here](https://github.com/ssovit/x-gorgon-x-khronos/) for mobile app api
+
 # Installation via Composer
 `composer require ssovit/tiktok-api`
 
