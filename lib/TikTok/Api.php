@@ -10,20 +10,19 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
     {
         /**
          * API Base url
-         * @var string
+         * @var String
          */
         const API_BASE = "https://www.tiktok.com/node/";
-
         /**
          * Config
          *
-         * @var array
+         * @var Array
          */
         private $_config = [];
         /**
          * Cache Engine
          *
-         * @var object
+         * @var Object
          */
         private $cacheEngine;
         /**
@@ -35,8 +34,6 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
         /**
          * Default config
          *
-         * @todo change the - to _ on array keys
-         * @todo randomize user-agent/user_agent
          * @var array
          */
         private $defaults = [
@@ -68,12 +65,6 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             if ($cacheEngine) {
                 $this->cacheEnabled = true;
                 $this->cacheEngine        = $cacheEngine;
-            }
-            /**
-             * Create blank cookie file if not exists
-             */
-            if (!file_exists($this->_config['cookie_file'])) {
-                @touch($this->_config['cookie_file']);
             }
         }
         /**
@@ -311,9 +302,19 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                      * Private endpoint which will require recurring subscription
                      * See readme for details
                      */
-                    $result = $this->remote_call($this->_config['nwm_endpoint'] . "/nwm/" . $video->id . "?key=" . $this->_config['api_key'], 'aweme-' . $video->id);
+                    $result = $this->remote_call(trim($this->_config['nwm_endpoint'], '/') . "/video/" . $video->id . "?key=" . $this->_config['api_key']);
                     if ($result) {
-                        return $result;
+                        $result = $this->remote_call($result->url, true, [
+                            "user-agent: " . $result->ua,
+                            "x-gorgon: " . $result->xg,
+                            "x-khronos: " . $result->ts
+                        ]);
+                        if (isset($result->aweme_detail->video->play_addr->uri)) {
+                            return (object) [
+                                "id" => $result->aweme_detail->video->play_addr->uri,
+                                "url" => $result->aweme_detail->video->play_addr->url_list[0],
+                            ];
+                        }
                     }
                 }
             }
@@ -515,7 +516,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * @param boolean $isJson
          * @return object
          */
-        private function remote_call($url = "", $isJson = true)
+        private function remote_call($url = "", $isJson = true, $headers = ['Referer: https://www.tiktok.com/foryou?lang=en'])
         {
             $ch      = curl_init();
             $options = [
@@ -531,9 +532,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_TIMEOUT        => 30,
                 CURLOPT_MAXREDIRS      => 10,
-                CURLOPT_HTTPHEADER     => [
-                    'Referer: https://www.tiktok.com/foryou?lang=en',
-                ],
+                CURLOPT_HTTPHEADER     => array_merge([], $headers),
                 CURLOPT_COOKIEJAR      => $this->_config['cookie_file'],
                 CURLOPT_COOKIEFILE => $this->_config['cookie_file'],
             ];
@@ -563,11 +562,32 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          */
         private function failure()
         {
-            /**
-             * Try delete old cookie file to invalidate old cookies
-             */
+
             @unlink($this->_config['cookie_file']);
             return false;
+        }
+        /**
+         * Verify Fingerprint, TikTok uses this to create s_v_web_id cookie
+         * Fingerprint structure has changed, will update this soon
+         * @todo Update this method
+         * @return void
+         */
+        public function verify_fp()
+        {
+            $chars = str_split("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+            $chunks = [];
+            $timeStr = base_convert(microtime(true), 10, 36);
+            for ($i = 0; $i < 36; $i++) {
+                if (\in_array($i, [8, 13, 18, 23])) {
+                    $chunks[$i] = "_";
+                } elseif ($i == 14) {
+                    $chunks[$i] = "4";
+                } else {
+                    $o = 0 | rand(0, count($chars) - 1);
+                    $chunks[$i] = $chars[19 === $i ? 3 & $o | 8 : $o];
+                }
+            }
+            return "verify_" . $timeStr . "_" . implode("", $chunks);
         }
     }
 }

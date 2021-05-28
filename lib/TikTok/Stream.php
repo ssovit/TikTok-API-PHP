@@ -75,7 +75,7 @@ if (!\class_exists('\Sovit\TikTok\Stream')) {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_USERAGENT, $this->config['user-agent']);
-            curl_setopt($ch, CURLOPT_REFERER, "https://www.tiktok.com/");
+            curl_setopt($ch, CURLOPT_REFERER, "https://www.tiktok.com/discover");
             curl_setopt($ch, CURLOPT_COOKIEFILE, $this->config['cookie_file']);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $this->config['cookie_file']);
             curl_setopt($ch, CURLOPT_HEADERFUNCTION, [$this, 'headerCallback']);

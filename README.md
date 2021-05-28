@@ -3,9 +3,6 @@
 
 Unofficial TikTok API for PHP
 
-# X-Gorgon & X-Khronos Calculation Algorithm
-[More Info Here](https://github.com/ssovit/x-gorgon-x-khronos/) for mobile app api
-
 # Installation via Composer
 `composer require ssovit/tiktok-api`
 
@@ -15,6 +12,8 @@ Unofficial TikTok API for PHP
 [Try my Telegram Bot](http://t.me/ssovitTikTokBot) to get non-watermarked video for any TikTok video
 
 # Want to support?
+BTC: 1KA78sxnqEYPdni4txdieGJzVkH8AEn9dy
+ETH: 0x85110345abc62327d3c4cf657b7aabf8628d373c
 <a href="https://www.buymeacoffee.com/ssovit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 # Looking for Watermark-less video API?
@@ -128,7 +127,18 @@ TikTok videos don't have video id as meta data on watermarked video posted after
 | **Mega** | 100 USD | 12,000 | ~360,000 |
 | **Ultra** | custom pricing | ? | ? |
 
-Connect with me for more details at https://t.me/ssovit or sovit.tamrakar@gmail.com
+## Looking for api source code?
+Source code for TikTok Mobile App API available.
+
+**Available variations**
+- PHP *(standalone version with no external dependency)*
+- NodeJs *(standalone version with no external dependency)*
+
+# Contact
+- Telegram https://t.me/ssovit
+- WhatsApp https://wa.link/odwv3x
+- Discord https://discord.gg/rSQd2QAXA8
+- Email sovit.tamrakar@gmail.com
 
 # Empty results?
 Use proxy. You are making too many API requests in short interval of time. Rotating proxy is recommended.
