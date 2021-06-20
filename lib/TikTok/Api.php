@@ -424,7 +424,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                     "type"      => 1,
                     "secUid"    => "",
                     "id"        => $user->user->id,
-                    "count"     => 30,
+                    "count"     => isset($this->_config['video_count']) ? $this->_config['video_count'] : 30,
                     "minCursor" => "0",
                     "maxCursor" => $maxCursor,
                     "shareUid"  => "",
