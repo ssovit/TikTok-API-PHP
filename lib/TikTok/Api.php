@@ -44,7 +44,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             "proxy-password" => false,
             "cache-timeout"  => 3600,
             "nwm_endpoint"   => false,
-            "api_key"   => false
+            "api_key"   => false,
+            "video_count" => 30
         ];
         /**
          * Class Constructor
@@ -124,7 +125,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                     "type"      => 3,
                     "secUid"    => "",
                     "id"        => $challenge->challenge->id,
-                    "count"     => 30,
+                    "count"     => isset($this->_config['video_count']) ? $this->_config['video_count'] : 30,
                     "minCursor" => 0,
                     "maxCursor" => $maxCursor,
                     "shareUid"  => "",
