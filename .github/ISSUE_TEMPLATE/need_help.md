@@ -1,14 +1,14 @@
 ---
-name: Bug Report
-about: Create a report to help us improve
+name: Need Help
+about: Create a ticket to get help.
 title: ''
-labels: 'bug-report'
+labels: 'need-help'
 assignees: ''
 
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what you are trying to do and what result you are getting. 
 
 ## If fields below is empty then issue will be Ignored and Closed
 
@@ -24,4 +24,4 @@ Steps to reproduce the behavior:
 - Preferably provide URL to the profile,hashtag,video and etc page:
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable, add screenshots to help explain your problem and where you need the help.
