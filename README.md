@@ -8,14 +8,6 @@ Unofficial TikTok API for PHP
 
 [![Discord](https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg)](https://discord.gg/rSQd2QAXA8)
 
-# Try my Telegram Bot
-[Try my Telegram Bot](http://t.me/ssovitTikTokBot) to get non-watermarked video for any TikTok video
-
-# Want to support?
-BTC: 1KA78sxnqEYPdni4txdieGJzVkH8AEn9dy
-ETH: 0x85110345abc62327d3c4cf657b7aabf8628d373c
-<a href="https://www.buymeacoffee.com/ssovit" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
 # Looking for Watermark-less video API?
 It's available on monthly subscription. See below for plans and contact details.
 
@@ -84,7 +76,6 @@ $cache_engine=new MyCacheEngine();
 $api=new \Sovit\TikTok\Api(array(/* config array*/),$cache_engine);
 ```
 
-
 # Stream and Download videos
 Follow examples on `/example` folder for video stream and download example
 Note: TikTok videos will not play directly when used in HTML video player as they require `www.tiktok.com` as http referrer.
@@ -134,7 +125,12 @@ Source code for TikTok Mobile App API available.
 - PHP *(standalone version with no external dependency)*
 - NodeJs *(standalone version with no external dependency)*
 
+# Private APP API wrapper
+
+https://github.com/ssovit/TikTok-Private-API-PHP
+
 # Contact
+**Use issues ticket if you have questions regarding this library. Only inquiries regarding private API or custom works will be responded.**
 - Telegram https://t.me/ssovit
 - WhatsApp https://wa.link/odwv3x
 - Discord https://discord.gg/rSQd2QAXA8
