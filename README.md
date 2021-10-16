@@ -111,12 +111,11 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. Check below for subscription plans for non watermarked video API.
 
 ## Pirvate API server subscription pricing
-| Package | Cost(per month) | Quota(requests per day) | Quota (requests per month) |
-| ------- | :---------------: | --------------: | -----------------: |
-| **Basic** | 20 USD | 2,000 | ~60,000|
-| **Pro** *(popular)* | 50 USD | 5,000 | ~150,000 |
-| **Mega** | 100 USD | 12,000 | ~360,000 |
-| **Ultra** | custom pricing | ? | ? |
+| Package | Cost(per month) | Quota(requests per day) |
+| ------- | :---------------: | --------------: |
+| **Pro** *(popular)* | 50 USD | 5,000 |
+| **Mega** | 100 USD | 12,000 |
+| **Ultra** | custom pricing | ? |
 
 ## Looking for api source code?
 Source code for TikTok Mobile App API available.
