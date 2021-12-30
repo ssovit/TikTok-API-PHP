@@ -385,16 +385,14 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 }
             }
             $username = urlencode($username);
-            $result = $this->remote_call("https://www.tiktok.com/@{$username}?lang=en", false);
-            if (preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/', $result, $matches)) {
-                $result = json_decode($matches[2], false);
-                if (isset($result->props->pageProps->userInfo)) {
-                    $result = $result->props->pageProps->userInfo;
-                    if ($this->cacheEnabled) {
-                        $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
-                    }
-                    return $result;
+            $result = $this->remote_call("https://www.tiktok.com/api/user/detail/?userId={$username}", false);
+            $result = json_decode($result, false);
+            if (isset($result->userInfo)) {
+                $result = $result->userInfo;
+                if ($this->cacheEnabled) {
+                    $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                 }
+                return $result;
             }
             return $this->failure();
         }
