@@ -483,21 +483,28 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             if (!preg_match("/https?:\/\/([^\.]+)?\.tiktok\.com/", $url)) {
                 throw new \Exception("Invalid VIDEO URL");
             }
-            $result      = $this->remote_call($url, false);
-            $result = Helper::string_between($result, '{"props":{"initialProps":{', "</script>");
+            $result = $this->remote_call($url, false);
+            $result = Helper::string_between($result, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
             if (!empty($result)) {
-                $jsonData = json_decode('{"props":{"initialProps":{' . $result);
-                if (isset($jsonData->props->pageProps->itemInfo->itemStruct)) {
+                $jsonData = json_decode($result);
+                if (isset($jsonData->ItemModule, $jsonData->ItemList, $jsonData->UserModule)) {
+                    $id = $jsonData->ItemList->video->keyword;
+                    $item = $jsonData->ItemModule->{$id};
+                    $username = $item->author;
                     $result = (object) [
                         'statusCode' => 0,
                         'info'       => (object) [
                             'type'   => 'video',
-                            'detail' => $url,
+                            'detail' => (object) [
+                                "url" => $url,
+                                "user" => $jsonData->UserModule->users->{$username},
+                                "stats" => $item->stats
+                            ],
                         ],
-                        "items"      => [$jsonData->props->pageProps->itemInfo->itemStruct],
+                        "items"      => [$item],
                         "hasMore"    => false,
                         "minCursor"  => '0',
-                        "maxCursor"  => ' 0',
+                        "maxCursor"  => '0'
                     ];
                     if ($this->cacheEnabled) {
                         $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
