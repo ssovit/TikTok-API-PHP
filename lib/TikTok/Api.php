@@ -171,10 +171,11 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 }
             }
             $result = $this->remote_call("https://www.tiktok.com/music/original-sound-{$music_id}?lang=en", false);
-            if (preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/', $result, $matches)) {
-                $result = json_decode($matches[2], false);
-                if (isset($result->props->pageProps->musicInfo)) {
-                    $result = $result->props->pageProps->musicInfo;
+            $json_string = Helper::string_between($result, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
+            if (!empty($json_string)) {
+                $result = json_decode($json_string);
+                if (isset($result->MusicModule)) {
+                    $result = $result->MusicModule->musicInfo;
                     if ($this->cacheEnabled) {
                         $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
                     }
