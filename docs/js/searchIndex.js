@@ -13,67 +13,72 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetChallenge\u0028\u0029",
             "name": "getChallenge",
-            "summary": "Get\u0020Challenge\u0020function\nAccepts\u0020challenge\u0020name\u0020and\u0020returns\u0020challenge\u0020detail\u0020object\u0020or\u0020false\u0020on\u0020failure",
+            "summary": "Challenge\u0020detail",
             "url": "classes/Sovit-TikTok-Api.html#method_getChallenge"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetChallengeFeed\u0028\u0029",
             "name": "getChallengeFeed",
-            "summary": "Get\u0020Challenge\u0020Feed\nAccepts\u0020challenge\u0020name\u0020and\u0020returns\u0020challenge\u0020feed\u0020object\u0020or\u0020false\u0020on\u0020faliure",
+            "summary": "Challenge\u0020Feed",
             "url": "classes/Sovit-TikTok-Api.html#method_getChallengeFeed"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetMusic\u0028\u0029",
             "name": "getMusic",
-            "summary": "Get\u0020Music\u0020detail\nAccepts\u0020music\u0020ID\u0020and\u0020returns\u0020music\u0020detail\u0020object\u0020or\u0020false\u0020on\u0020failure",
+            "summary": "Music\u0020detail",
             "url": "classes/Sovit-TikTok-Api.html#method_getMusic"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetMusicFeed\u0028\u0029",
             "name": "getMusicFeed",
-            "summary": "Get\u0020music\u0020feed\nAccepts\u0020music\u0020id\u0020and\u0020returns\u0020music\u0020feed\u0020object\u0020or\u0020false\u0020on\u0020failure",
+            "summary": "Music\u0020feed",
             "url": "classes/Sovit-TikTok-Api.html#method_getMusicFeed"
+        },                {
+            "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetNoWatermarkLegacy\u0028\u0029",
+            "name": "getNoWatermarkLegacy",
+            "summary": "Non\u0020watermarked\u0020video",
+            "url": "classes/Sovit-TikTok-Api.html#method_getNoWatermarkLegacy"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetNoWatermark\u0028\u0029",
             "name": "getNoWatermark",
-            "summary": "Get\u0020Non\u0020watermarked\u0020video\nAccepts\u0020video\u0020post\u0020url\u0020and\u0020returns\u0020non\u002Dwatermarked\u0020video\u0020object\u0020or\u0020false\u0020on\u0020failure",
+            "summary": "Non\u0020watermarked\u0020video",
             "url": "classes/Sovit-TikTok-Api.html#method_getNoWatermark"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetTrendingFeed\u0028\u0029",
             "name": "getTrendingFeed",
-            "summary": "Trending\u0020Video\u0020Feed\nAccepts\u0020\u0024maxCursor\u0020offset\u0020and\u0020returns\u0020trending\u0020video\u0020feed\u0020object\u0020or\u0020false\u0020on\u0020failure",
+            "summary": "Trending\/ForYou\u0020Feed",
             "url": "classes/Sovit-TikTok-Api.html#method_getTrendingFeed"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetUser\u0028\u0029",
             "name": "getUser",
-            "summary": "Get\u0020User\u0020detail\nAccepts\u0020tiktok\u0020username\u0020and\u0020returns\u0020user\u0020detail\u0020object\u0020or\u0020false\u0020on\u0020failure",
+            "summary": "User\u0020detail",
             "url": "classes/Sovit-TikTok-Api.html#method_getUser"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetUserFeed\u0028\u0029",
             "name": "getUserFeed",
-            "summary": "Get\u0020user\u0020feed\nAccepts\u0020username\u0020and\u0020\u0024maxCursor\u0020pagination\u0020offset\u0020and\u0020returns\u0020user\u0020video\u0020feed\u0020object\u0020or\u0020false\u0020on\u0020failure",
+            "summary": "User\u0020Feed",
             "url": "classes/Sovit-TikTok-Api.html#method_getUserFeed"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetVideoByID\u0028\u0029",
             "name": "getVideoByID",
-            "summary": "Get\u0020video\u0020by\u0020video\u0020id\nAccept\u0020video\u0020ID\u0020and\u0020returns\u0020video\u0020detail\u0020object\u0020or\u0020false\u0020on\u0020failure",
+            "summary": "Video\u0020by\u0020video\u0020id",
             "url": "classes/Sovit-TikTok-Api.html#method_getVideoByID"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AgetVideoByUrl\u0028\u0029",
             "name": "getVideoByUrl",
-            "summary": "Get\u0020Video\u0020By\u0020URL\nAccepts\u0020tiktok\u0020video\u0020url\u0020and\u0020returns\u0020video\u0020detail\u0020object\u0020or\u0020false\u0020on\u0020failure",
+            "summary": "Video\u0020by\u0020video\u0020url",
             "url": "classes/Sovit-TikTok-Api.html#method_getVideoByUrl"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003Aremote_call\u0028\u0029",
             "name": "remote_call",
-            "summary": "Make\u0020remote\u0020call\nPrivate\u0020method\u0020that\u0020will\u0020make\u0020remote\u0020HTTP\u0020requests,\u0020parse\u0020result\u0020as\u0020JSON\u0020if\u0020\u0024isJson\u0020is\u0020set\u0020to\u0020true\nreturns\u0020false\u0020on\u0020failure",
+            "summary": "Remote\u0020request",
             "url": "classes/Sovit-TikTok-Api.html#method_remote_call"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003Afailure\u0028\u0029",
             "name": "failure",
-            "summary": "Failure\nBe\u0020a\u0020man\u0020and\u0020accept\u0020the\u0020failure",
+            "summary": "Failure\u003F\u0020Huh\u003F",
             "url": "classes/Sovit-TikTok-Api.html#method_failure"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003Averify_fp\u0028\u0029",
             "name": "verify_fp",
-            "summary": "Verify\u0020Fingerprint,\u0020TikTok\u0020uses\u0020this\u0020to\u0020create\u0020s_v_web_id\u0020cookie\nFingerprint\u0020structure\u0020has\u0020changed,\u0020will\u0020update\u0020this\u0020soon",
+            "summary": "Verify\u0020Fingerprint\u0020Token",
             "url": "classes/Sovit-TikTok-Api.html#method_verify_fp"
         },                {
             "fqsen": "\\Sovit\\TikTok\\Api\u003A\u003AAPI_BASE",

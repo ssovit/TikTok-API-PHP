@@ -14,6 +14,10 @@ It's available on monthly subscription. See below for plans and contact details.
 # Usage
 Follow examples in `/example` directory
 
+# Documentation
+
+[Documentation](https://ssovit.github.io/TikTok-API-PHP/classes/Sovit-TikTok-Api.html)
+
 ```php
 $api=new \Sovit\TikTok\Api(array(/* config array*/));
 

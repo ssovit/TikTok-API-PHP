@@ -68,7 +68,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
         }
         /**
-         * Get Challenge function
+         * Challenge detail
+         * 
          * Accepts challenge name and returns challenge detail object or false on failure
          *
          * @param string $challenge
@@ -100,7 +101,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Get Challenge Feed
+         * Challenge Feed
+         * 
          * Accepts challenge name and returns challenge feed object or false on faliure
          *
          * @param string $challenge_name
@@ -153,7 +155,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Get Music detail
+         * Music detail
+         * 
          * Accepts music ID and returns music detail object or false on failure
          *
          * @param string $music_id
@@ -185,7 +188,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Get music feed
+         * Music feed
+         * 
          * Accepts music id and returns music feed object or false on failure
          *
          * @param string $music_id
@@ -238,8 +242,10 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Get Non watermarked video
+         * Non watermarked video
+         * 
          * Accepts video post url and returns non-watermarked video object or false on failure
+         * 
          * Uses private API method as fallback
          *
          * @param string $url
@@ -323,9 +329,10 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Get Non watermarked video
-         * Accepts video post url and returns non-watermarked video object or false on failure
-         * Uses musical.ly endpoint but may not last for long
+         * Non watermarked video
+         * 
+         * - Accepts video post url and returns non-watermarked video object or false on failure
+         * - Uses musical.ly endpoint but may not last for long
          *
          * @param string $url
          * @return object
@@ -351,7 +358,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Trending Video Feed
+         * Trending/ForYou Feed
+         * 
          * Accepts $maxCursor offset and returns trending video feed object or false on failure
          *
          * @param integer $maxCursor
@@ -397,7 +405,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Get User detail
+         * User detail
+         * 
          * Accepts tiktok username and returns user detail object or false on failure
          *
          * @param string $username
@@ -433,7 +442,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Get user feed
+         * User Feed
+         * 
          * Accepts username and $maxCursor pagination offset and returns user video feed object or false on failure
          *
          * @param string $username
@@ -486,7 +496,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Get video by video id
+         * Video by video id
+         * 
          * Accept video ID and returns video detail object or false on failure
          *
          * @param string $video_id
@@ -500,7 +511,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->getVideoByUrl('https://m.tiktok.com/v/' . $video_id . '.html');
         }
         /**
-         * Get Video By URL
+         * Video by video url
+         * 
          * Accepts tiktok video url and returns video detail object or false on failure
          *
          * @param string $url
@@ -549,10 +561,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $this->failure();
         }
         /**
-         * Make remote call
-         * Private method that will make remote HTTP requests, parse result as JSON if $isJson is set to true
-         * returns false on failure
-         *
+         * Remote request
+         * 
          * @param string $url
          * @param boolean $isJson
          * @return object
@@ -596,7 +606,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return $data;
         }
         /**
-         * Failure
+         * Failure? Huh?
+         * 
          * Be a man and accept the failure
          *
          * @return void
@@ -608,9 +619,12 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             return false;
         }
         /**
-         * Verify Fingerprint, TikTok uses this to create s_v_web_id cookie
-         * Fingerprint structure has changed, will update this soon
-         * @todo Update this method
+         * Verify Fingerprint Token
+         * 
+         * Fingerprint structure has changed, will update this soon.
+         * 
+         * Or Never
+         * 
          * @return void
          */
         public function verify_fp()

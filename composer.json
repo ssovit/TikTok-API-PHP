@@ -31,6 +31,6 @@
 	},
 	"type": "library",
 	"archive": {
-		"exclude": ["/example", "/.github"]
+		"exclude": ["/example", "/.github","/docs"]
 	}
 }
