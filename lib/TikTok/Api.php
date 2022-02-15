@@ -240,11 +240,12 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
         /**
          * Get Non watermarked video
          * Accepts video post url and returns non-watermarked video object or false on failure
+         * Uses private API method as fallback
          *
          * @param string $url
          * @return object
          */
-        public function getNoWatermark($url = "")
+        public function getNoWatermarkLegacy($url = "")
         {
             // This is old way to get non-watermarked video url for videos posted before August 2020. 
             // To obtain non-watermaked video url for newer videos, there is no easy way to so.
@@ -316,6 +317,34 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                                 "url" => $result->aweme_detail->video->play_addr->url_list[0],
                             ];
                         }
+                    }
+                }
+            }
+            return $this->failure();
+        }
+        /**
+         * Get Non watermarked video
+         * Accepts video post url and returns non-watermarked video object or false on failure
+         * Uses musical.ly endpoint but may not last for long
+         *
+         * @param string $url
+         * @return object
+         */
+        public function getNoWatermark($url)
+        {
+            if (!preg_match("/https?:\/\/([^\.]+)?\.tiktok\.com/", $url)) {
+                throw new \Exception("Invalid VIDEO URL");
+            }
+            $data = $this->getVideoByUrl($url);
+            if ($data) {
+                $video = $data->items[0];
+                $result = $this->remote_call("https://api2.musical.ly/aweme/v1/aweme/detail/?" . \http_build_query(["aweme_id" => $video->id]));
+                if ($result) {
+                    if (isset($result->aweme_detail->video->play_addr->uri)) {
+                        return (object) [
+                            "id" => $result->aweme_detail->video->play_addr->uri,
+                            "url" => $result->aweme_detail->video->play_addr->url_list[0],
+                        ];
                     }
                 }
             }
