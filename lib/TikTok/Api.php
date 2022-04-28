@@ -174,7 +174,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 }
             }
             $result = $this->remote_call("https://www.tiktok.com/music/original-sound-{$music_id}?lang=en", false);
-            $json_string = Helper::string_between($result, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
+            $json_string = Helper::string_between($result, "<script id=\"SIGI_STATE\" type=\"application/json\">", "</script><script id=\"SIGI_RETRY\"");
             if (!empty($json_string)) {
                 $result = json_decode($json_string);
                 if (isset($result->MusicModule)) {
@@ -425,7 +425,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $username = urlencode($username);
             $result = $this->remote_call("https://www.tiktok.com/@{$username}?lang=en", false);
-            $json_string = Helper::string_between($result, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
+            $json_string = Helper::string_between($result, "<script id=\"SIGI_STATE\" type=\"application/json\">", "</script><script id=\"SIGI_RETRY\"");
             if (!empty($json_string)) {
                 $jsonData = json_decode($json_string);
                 if (isset($jsonData->UserModule, $jsonData->UserPage)) {
@@ -530,9 +530,9 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid VIDEO URL");
             }
             $result = $this->remote_call($url, false);
-            $result = Helper::string_between($result, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
-            if (!empty($result)) {
-                $jsonData = json_decode($result);
+            $json_string = Helper::string_between($result, "<script id=\"SIGI_STATE\" type=\"application/json\">", "</script><script id=\"SIGI_RETRY\"");
+            if (!empty($json_string)) {
+                $jsonData = json_decode($json_string);
                 if (isset($jsonData->ItemModule, $jsonData->ItemList, $jsonData->UserModule)) {
                     $id = $jsonData->ItemList->video->keyword;
                     $item = $jsonData->ItemModule->{$id};
