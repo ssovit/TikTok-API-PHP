@@ -174,7 +174,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 }
             }
             $result = $this->remote_call("https://www.tiktok.com/music/original-sound-{$music_id}?lang=en", false);
-            $json_string = Helper::string_between($result, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
+            $json_string = $this->parse_json($result);
             if (!empty($json_string)) {
                 $result = json_decode($json_string);
                 if (isset($result->MusicModule)) {
@@ -425,7 +425,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             }
             $username = urlencode($username);
             $result = $this->remote_call("https://www.tiktok.com/@{$username}?lang=en", false);
-            $json_string = Helper::string_between($result, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
+            $json_string = $this->parse_json($result);
             if (!empty($json_string)) {
                 $jsonData = json_decode($json_string);
                 if (isset($jsonData->UserModule, $jsonData->UserPage)) {
@@ -530,7 +530,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 throw new \Exception("Invalid VIDEO URL");
             }
             $result = $this->remote_call($url, false);
-            $result = Helper::string_between($result, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
+            $result = $this->parse_json($result);
             if (!empty($result)) {
                 $jsonData = json_decode($result);
                 if (isset($jsonData->ItemModule, $jsonData->ItemList, $jsonData->UserModule)) {
@@ -643,6 +643,15 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 }
             }
             return "verify_" . $timeStr . "_" . implode("", $chunks);
+        }
+
+        private function parse_json($html)
+        {
+            return Helper::string_between(
+                $html,
+                "<script id=\"SIGI_STATE\" type=\"application/json\">",
+                "</script><script id=\"SIGI_RETRY\""
+            );
         }
     }
 }
