@@ -1,36 +1,51 @@
 {
-	"name": "ssovit/tiktok-api",
-	"description": "Unofficial TikTok API for PHP",
-	"license": "MIT",
-	"homepage": "https://github.com/ssovit/TikTok-API-PHP",
-	"keywords": [
-		"tiktok",
-		"tiktok-api",
-		"tiktok-scraper"
-	],
-	"authors": [
-
-		{
-			"name": "Sovit Tamrakar",
-			"email": "sovit.tamrakar@gmail.com",
-			"homepage": "https://github.com/ssovit/",
-			"role": "Developer"
-		}
-	],
-	"support": {
-		"source": "https://github.com/ssovit/TikTok-API-PHP",
-		"issues": "https://github.com/ssovit/TikTok-API-PHP/issues",
-		"email": "sovit.tamrakar@gmail.com"
-	},
-	"autoload": {
-		"psr-4": {
-			"Sovit\\": "lib"
-		}
-	},
-	"require": {
-	},
-	"type": "library",
-	"archive": {
-		"exclude": ["/example", "/.github","/docs"]
-	}
+    "name": "upbase/tiktok-php-sdk",
+    "description": "TikTok Partner API PHP SDK",
+    "type": "library",
+    "keywords": [
+        "tiktok",
+        "openapi",
+        "upbase"
+    ],
+    "homepage": "https://github.com/technology20nn/tiktok-php",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/technology20nn/tiktok-php/issues"
+    },
+    "require": {
+        "php": ">=7.2",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.5 || ^7.0",
+        "psr/http-message": "^1.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.4",
+        "phpstan/phpstan": "^0.12.14",
+        "phpunit/phpunit": "^7.5 || ^8.0 || ^9.0",
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "TikTok\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TikTok\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "check": [
+            "@lint",
+            "@test"
+        ],
+        "lint": "phpcs",
+        "lint-fix": "phpcbf",
+        "phpstan": "phpstan analyse src --level=1",
+        "test": "phpunit",
+        "coverage-html": "phpunit --coverage-html=build/coverage-html"
+    }
 }

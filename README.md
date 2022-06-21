@@ -4,7 +4,7 @@
 Unofficial TikTok API for PHP
 
 # Installation via Composer
-`composer require ssovit/tiktok-api`
+`composer require upbase/tiktok-php-sdk`
 
 [![Discord](https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg)](https://discord.gg/rSQd2QAXA8)
 
