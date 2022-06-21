@@ -5,7 +5,7 @@ use Exception;
 
 class TikTokRequest
 {
-	public $app_secret;
+	public $apiName;
 
 	public $headerParams = array();
 
@@ -15,12 +15,12 @@ class TikTokRequest
 
 	public $httpMethod = 'POST';
 
-	public function __construct($app_secret,$httpMethod = 'POST')
+	public function __construct($apiName,$httpMethod = 'POST')
 	{
-		$this->app_secret = $app_secret;
+		$this->apiName = $apiName;
 		$this->httpMethod = $httpMethod;
 
-		if($this->startWith($app_secret,"//"))
+		if($this->startWith($apiName,"//"))
 		{
 			throw new Exception("api name is invalid. It should be start with /");			
 		}

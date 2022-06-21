@@ -40,12 +40,12 @@ class TikTokClient
 		$this->logLevel = Constants::$log_level_error;
 	}
 
-	protected function generateSign($app_secret,$params)
+	protected function generateSign($apiName,$params)
 	{
 		ksort($params);
 
 		$stringToBeSigned = '';
-		$stringToBeSigned .= $app_secret;
+		$stringToBeSigned .= $apiName;
 		foreach ($params as $k => $v)
 		{
 			$stringToBeSigned .= "$k$v";
@@ -242,7 +242,7 @@ class TikTokClient
 			$requestUrl = substr($requestUrl, 0, -1);
 		}
 
-		$requestUrl .= $request->app_secret;
+		$requestUrl .= $request->apiName;
 		$requestUrl .= '?';
 
 		$sysParams["partner_id"] = $this->sdkVersion;
@@ -252,7 +252,7 @@ class TikTokClient
 			$sysParams["debug"] = 'true';
 		}
 
-		$sysParams["sign"] = $this->generateSign($request->app_secret,array_merge($apiParams, $sysParams));
+		$sysParams["sign"] = $this->generateSign($request->apiName,array_merge($apiParams, $sysParams));
 
 		foreach ($sysParams as $sysParamKey => $sysParamValue)
 		{
