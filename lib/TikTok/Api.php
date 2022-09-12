@@ -589,8 +589,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             ];
 
             if ($this->_config['proxy-host'] && $this->_config['proxy-port']) {
-                $options[CURLOPT_PROXY] = $this->_config['proxy-host'];
-                $options[CURLOPT_PROXY] = $this->_config['proxy-port'];
+                $options[CURLOPT_PROXY] = $this->_config['proxy-host'] . ':' . $this->_config['proxy-port'];
                 if ($this->_config['proxy-username'] && $this->_config['proxy-password']) {
                     $options[CURLOPT_PROXYUSERPWD] = $this->_config['proxy-username'] . ":" . $this->_config['proxy-password'];
                 }
