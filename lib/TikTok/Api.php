@@ -588,16 +588,19 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 CURLOPT_COOKIEFILE => $this->_config['cookie_file'],
             ];
 
+            if ($this->_config['proxy-host'] && $this->_config['proxy-port']) {
+                $options[CURLOPT_PROXY] = $this->_config['proxy-host'];
+                $options[CURLOPT_PROXY] = $this->_config['proxy-port'];
+                if ($this->_config['proxy-username'] && $this->_config['proxy-password']) {
+                    $options[CURLOPT_PROXYUSERPWD] = $this->_config['proxy-username'] . ":" . $this->_config['proxy-password'];
+                }
+            }
+
             curl_setopt_array($ch, $options);
             if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
                 curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
             }
-            if ($this->_config['proxy-host'] && $this->_config['proxy-port']) {
-                curl_setopt($ch, CURLOPT_PROXY, $this->_config['proxy-host'] . ":" . $this->_config['proxy-port']);
-                if ($this->_config['proxy-username'] && $this->_config['proxy-password']) {
-                    curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->_config['proxy-username'] . ":" . $this->_config['proxy-password']);
-                }
-            }
+
             $data = curl_exec($ch);
             curl_close($ch);
             if ($isJson) {
