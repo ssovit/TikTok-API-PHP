@@ -114,30 +114,9 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 # Non-watermarked video url for newer videos
 TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. Check below for subscription plans for non watermarked video API.
 
-## Pirvate API server subscription pricing
-| Package | Cost(per month) | Quota(requests per day) |
-| ------- | :---------------: | --------------: |
-| **Pro** *(popular)* | 50 USD | 5,000 |
-| **Mega** | 100 USD | 12,000 |
-| **Ultra** | custom pricing | ? |
 
-## Looking for api source code?
-Source code for TikTok Mobile App API available.
-
-**Available variations**
-- PHP *(standalone version with no external dependency)*
-- NodeJs *(standalone version with no external dependency)*
-
-# Private APP API wrapper
-
-https://github.com/ssovit/TikTok-Private-API-PHP
-
-# Contact
-**Use issues ticket if you have questions regarding this library. Only inquiries regarding private API or custom works will be responded.**
-- Telegram https://t.me/ssovit
-- WhatsApp https://wa.link/odwv3x
+# Discussion
 - Discord https://discord.gg/rSQd2QAXA8
-- Email sovit.tamrakar@gmail.com
 
 # Empty results?
 Use proxy. You are making too many API requests in short interval of time. Rotating proxy is recommended.
