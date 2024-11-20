@@ -3,8 +3,16 @@
 
 Unofficial TikTok API for PHP
 
+**Not Working and Not Maintained**
+
+# Looking for working TikTok Scraper API?
+https://github.com/ssovit/tiktok-scraper with device registration routine, all the scrappers api endpoints available in python
+
+[![IPRoyal](assets/proxy.jpg)](https://iproyal.com/?r=ttproxy)
+
+
 # Installation via Composer
-`composer require ssovit/tiktok-api`
+~~`composer require ssovit/tiktok-api`~~
 
 [![Discord](https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg)](https://discord.gg/rSQd2QAXA8)
 
@@ -88,7 +96,9 @@ Note: TikTok videos will not play directly when used in HTML video player as the
 To use proxy, provide `proxy-host`, `proxy-port`, `proxy-username`, `proxy-password`
 It's highly recommended that you use proxy to prevent your IP from getting banned.
 
-It's highly recommended to use `Rotating` Proxy service if you are making lots of requests in short interval of time. [Webshare.io Proxy Service](https://www.webshare.io/?referral_code=kv04mj5v4ubw) is good. *It's my referral link and I would get a bit from it*
+[![IPRoyal](assets/proxy.jpg)](https://iproyal.com/?r=ttproxy)
+
+It's highly recommended to use good Proxy service if you are making lots of requests in short interval of time. [IPRoyal](https://iproyal.com/?r=ttproxy) is good. *It's my referral link and I would get a bit from it*
 
 # Available methods
 - `getTrendingFeed` - Get trending feed `getTrendingFeed($maxCursor)`

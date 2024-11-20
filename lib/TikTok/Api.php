@@ -10,19 +10,19 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
     {
         /**
          * API Base url
-         * @var String
+         * @var string
          */
         const API_BASE = "https://www.tiktok.com/node/";
         /**
          * Config
          *
-         * @var Array
+         * @var array
          */
         private $_config = [];
         /**
          * Cache Engine
          *
-         * @var Object
+         * @var object
          */
         private $cacheEngine;
         /**
@@ -73,7 +73,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * Accepts challenge name and returns challenge detail object or false on failure
          *
          * @param string $challenge
-         * @return object
+         * @return object | boolean
          */
         public function getChallenge($challenge = "")
         {
@@ -107,7 +107,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          *
          * @param string $challenge_name
          * @param integer $maxCursor
-         * @return object
+         * @return object | boolean
          */
         public function getChallengeFeed($challenge_name = "", $maxCursor = 0)
         {
@@ -160,7 +160,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * Accepts music ID and returns music detail object or false on failure
          *
          * @param string $music_id
-         * @return object
+         * @return object | boolean
          */
         public function getMusic($music_id = "")
         {
@@ -194,7 +194,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          *
          * @param string $music_id
          * @param integer $maxCursor
-         * @return object
+         * @return object | boolean
          */
         public function getMusicFeed($music_id = "", $maxCursor = 0)
         {
@@ -249,7 +249,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * Uses private API method as fallback
          *
          * @param string $url
-         * @return object
+         * @return object | boolean
          */
         public function getNoWatermarkLegacy($url = "")
         {
@@ -335,7 +335,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * - Uses musical.ly endpoint but may not last for long
          *
          * @param string $url
-         * @return object
+         * @return object | boolean
          */
         public function getNoWatermark($url)
         {
@@ -363,7 +363,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * Accepts $maxCursor offset and returns trending video feed object or false on failure
          *
          * @param integer $maxCursor
-         * @return object
+         * @return object | boolean
          */
         public function getTrendingFeed($maxCursor = 0)
         {
@@ -410,7 +410,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * Accepts tiktok username and returns user detail object or false on failure
          *
          * @param string $username
-         * @return object
+         * @return object | boolean
          */
         public function getUser($username = "")
         {
@@ -448,7 +448,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          *
          * @param string $username
          * @param integer $maxCursor
-         * @return object
+         * @return object | boolean
          */
         public function getUserFeed($username = "", $maxCursor = 0)
         {
@@ -501,7 +501,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * Accept video ID and returns video detail object or false on failure
          *
          * @param string $video_id
-         * @return void
+         * @return object | boolean
          */
         public function getVideoByID($video_id = "")
         {
@@ -516,7 +516,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * Accepts tiktok video url and returns video detail object or false on failure
          *
          * @param string $url
-         * @return object
+         * @return object | boolean
          */
         public function getVideoByUrl($url = "")
         {
@@ -610,7 +610,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * 
          * Be a man and accept the failure
          *
-         * @return void
+         * @return boolean
          */
         private function failure()
         {
@@ -625,7 +625,7 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
          * 
          * Or Never
          * 
-         * @return void
+         * @return string
          */
         public function verify_fp()
         {
