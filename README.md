@@ -1,5 +1,5 @@
 # Unofficial TikTok API library for PHP
-[![GitHub issues](https://img.shields.io/github/issues/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/issues) ![Packagist Downloads](https://img.shields.io/packagist/dm/ssovit/tiktok-api?style=for-the-badge) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ssovit/TikTok-API-PHP/Create%20Tag?style=for-the-badge) [![GitHub license](https://img.shields.io/github/license/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/blob/master/LICENSE) [![Discord](https://img.shields.io/discord/820856055936188456?color=%237289da&label=DISCORD&style=for-the-badge)](https://discord.gg/rSQd2QAXA8)
+[![GitHub issues](https://img.shields.io/github/issues/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/issues) ![Packagist Downloads](https://img.shields.io/packagist/dm/ssovit/tiktok-api?style=for-the-badge) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ssovit/TikTok-API-PHP/Create%20Tag?style=for-the-badge) [![GitHub license](https://img.shields.io/github/license/ssovit/TikTok-API-PHP?style=for-the-badge)](https://github.com/ssovit/TikTok-API-PHP/blob/master/LICENSE) [![Discord](https://img.shields.io/discord/820856055936188456?color=%237289da&label=DISCORD&style=for-the-badge)](https://discord.gg/e7mgNMKZWu)
 
 Unofficial TikTok API for PHP
 
@@ -14,7 +14,7 @@ https://github.com/ssovit/tiktok-scraper with device registration routine, all t
 # Installation via Composer
 ~~`composer require ssovit/tiktok-api`~~
 
-[![Discord](https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg)](https://discord.gg/rSQd2QAXA8)
+[![Discord](https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg)](https://discord.gg/e7mgNMKZWu)
 
 # Looking for Watermark-less video API?
 It's available on monthly subscription. See below for plans and contact details.
